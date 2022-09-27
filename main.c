@@ -6,6 +6,8 @@
 //
 
 #include "system.h"
+#include "tinygl.h"
+#include "../fonts/font5x7_1.h"
 #include "point.h"
 #include "io.h"
 #include "led.h"
@@ -13,6 +15,7 @@
 
 #define PACER_RATE 500
 #define BLINK_RATE 10
+#define MESSAGE_RATE 10
 
 
 bool should_shrink(void)
@@ -30,10 +33,27 @@ int main(void)
     ir_uart_init();
     led_init();
     io_init(PACER_RATE, BLINK_RATE);
+    tinygl_init (PACER_RATE);
+    tinygl_font_set (&font5x7_1);
+    tinygl_text_speed_set(MESSAGE_RATE);
+    tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
 
-    Point_t player = point(0, 0);   
+    Point_t player = point(0, 0);  
+
+    bool hasEnded = false;
 
     while (1) {
+        if (max_rows() < 0 && !hasEnded) {
+            tinygl_text("GAME OVER!!!");
+            hasEnded = true;
+        }
+
+        if (hasEnded) {
+            pacer_wait();
+            tinygl_update();
+            led_on();
+            continue;
+        }
 
         led_off();
         display(&player);
