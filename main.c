@@ -14,6 +14,7 @@
 #define PACER_RATE 500
 #define BLINK_RATE 10
 
+
 bool should_shrink(void)
 {
     if (!ir_uart_read_ready_p()) {
@@ -30,7 +31,7 @@ int main(void)
     led_init();
     io_init(PACER_RATE, BLINK_RATE);
 
-    Point_t player = point(0, 0);    
+    Point_t player = point(0, 0);   
 
     while (1) {
 
@@ -42,9 +43,10 @@ int main(void)
             ir_uart_putc('N');
         }
 
+
         // If received signal, shrink the column
         if (should_shrink()) {
-            shrink_column(&player);
+            shrink_rows(&player);
             led_on();
         }
     }

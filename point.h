@@ -68,7 +68,7 @@ bool equals(const Point_t lhs, const Point_t rhs);
  * 
  * \param target A point adjust 
  */
-void shrink_column(Point_t* target);
+void shrink_rows(Point_t* target);
 
 /**
  * \brief The max column at the time

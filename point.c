@@ -43,7 +43,7 @@ bool equals(const Point_t lhs, const Point_t rhs)
     return lhs.col == rhs.col && lhs.row == rhs.row;
 }
 
-void shrink_column(Point_t* point)
+void shrink_rows(Point_t* point)
 {
     max_row -= 1;
     *point = apply(*point, STILL);
