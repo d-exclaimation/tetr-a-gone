@@ -75,6 +75,6 @@ void shrink_column(Point_t* target);
  * 
  * \return 0 - 4 (Indicate the last index of the column) 
  */
-int8_t max_column(void);
+int8_t max_rows(void);
 
 #endif

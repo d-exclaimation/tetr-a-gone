@@ -7,7 +7,7 @@
 
 #include "point.h"
 
-static int8_t max_col = MAX_COL;
+static int8_t max_row = MAX_ROW;
 
 Point_t point(int8_t row, int8_t col)
 {
@@ -29,11 +29,11 @@ Point_t apply(const Point_t start, const Point_t dir)
     }
 
     // Check for the lower and/or right boundaries
-    if (res.col > max_col) {
-        res.col = max_col;
+    if (res.col > MAX_COL) {
+        res.col = MAX_COL;
     }
-    if (res.row > MAX_ROW) {
-        res.row = MAX_ROW;
+    if (res.row > max_row) {
+        res.row = max_row;
     }
     return res;
 }
@@ -45,11 +45,11 @@ bool equals(const Point_t lhs, const Point_t rhs)
 
 void shrink_column(Point_t* point)
 {
-    max_col -= 1;
+    max_row -= 1;
     *point = apply(*point, STILL);
 }
 
-int8_t max_column(void)
+int8_t max_rows(void)
 {
-    return max_col;
+    return max_row;
 }
