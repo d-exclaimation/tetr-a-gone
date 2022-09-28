@@ -43,10 +43,11 @@ bool equals(const Point_t lhs, const Point_t rhs)
     return lhs.col == rhs.col && lhs.row == rhs.row;
 }
 
-void shrink_rows(Point_t* point)
+void shrink_rows(Point_t* player, Point_t* obj)
 {
     max_row -= 1;
-    *point = apply(*point, STILL);
+    *player = apply(*player, STILL);
+    *obj = apply(*obj, STILL);
 }
 
 int8_t max_rows(void)

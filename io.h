@@ -35,6 +35,6 @@ void control(Point_t* player);
  * 
  * \param game The game itself
  */
-void display(const Point_t* player);
+void display(const Point_t* player, const Point_t* obj);
 
 #endif

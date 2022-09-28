@@ -38,6 +38,11 @@ static const pio_t cols[] = {
 static int8_t prev_col = 0;
 
 /**
+ * Current column that has not been turned on
+ */
+static int8_t curr_col = 0;
+
+/**
  * Display blinking rate
  */
 static int8_t rate = 12;
@@ -81,32 +86,36 @@ void control(Point_t* player)
 
 }
 
-void display(const Point_t* player)
+void display(const Point_t* player, const Point_t* obj)
 {
-    for (int8_t curr_col = 0; curr_col <= MAX_COL; curr_col++) {
+    // Turn off any previusly turned on columns
+    pio_output_high(cols[prev_col]);
 
-        // Turn off any previusly turned on columns
-        pio_output_high(cols[prev_col]);
+    for (int8_t row = 0; row <= MAX_ROW; row++) {
 
-        for (int8_t row = 0; row <= MAX_ROW; row++) {
-
-            if (max_rows() < row) {
-                pio_output_low(rows[row]);
-            } else if (player->col == curr_col && player->row == row && !blinked) {
-                pio_output_low(rows[row]);
-            } else {
-                pio_output_high(rows[row]);
-            }
-            
+        if (max_rows() < row) {
+            pio_output_low(rows[row]);
+        } else if (player->col == curr_col && player->row == row) {
+            pio_output_low(rows[row]);
+        } else if (obj->col == curr_col && obj->row == row && !blinked) {
+            pio_output_low(rows[row]);
+        } else {
+            pio_output_high(rows[row]);
         }
-
-        // Turn on current column
-        pio_output_low(cols[curr_col]);
-
-
-        // Set previous column and wait for next iteration from the pacer
-        prev_col = curr_col;
-        pacer_wait();
+        
     }
-    blinked = (blinked + 1) % rate;
+
+    // Turn on current column
+    pio_output_low(cols[curr_col]);
+
+
+    // Set previous column and wait for next iteration from the pacer
+    prev_col = curr_col;
+    pacer_wait();
+    curr_col++;
+    
+    if (curr_col > MAX_COL) {
+        curr_col = 0;
+        blinked = (blinked + 1) % rate;
+    }
 }

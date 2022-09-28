@@ -68,7 +68,7 @@ bool equals(const Point_t lhs, const Point_t rhs);
  * 
  * \param target A point adjust 
  */
-void shrink_rows(Point_t* target);
+void shrink_rows(Point_t* player, Point_t* obj);
 
 /**
  * \brief The max column at the time
