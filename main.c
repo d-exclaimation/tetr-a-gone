@@ -1,8 +1,9 @@
 //
 //  main.c
-//  group_207
+//  
+//  Main entry point of the application
 //
-//  Created by vno16 on 14:01.
+//  Authored by vno16 and ski102 on 30 Sep 2022
 //
 
 
