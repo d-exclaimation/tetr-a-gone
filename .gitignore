@@ -3,3 +3,5 @@
 **/*.out
 **/*.hex
 ence260-ucfk4/
+.idea/
+.DS_Store
