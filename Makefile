@@ -18,12 +18,15 @@ all: main.out
 
 
 # Compile
-main.o: main.c
+main.o: main.c ./vector2.h ./hexagone.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+vector2.o: vector2.c vector2.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 
 # Link
-main.out: main.o
+main.out: main.o vector2.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
