@@ -18,7 +18,7 @@ all: main.out
 
 
 # Compile
-main.o: main.c ./vector2.h ./hexagone.h
+main.o: main.c ./vector2.h ./hexagone.h ./led.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 hexagone.o: hexagone.c hexagone.h ./vector2.h
@@ -27,9 +27,19 @@ hexagone.o: hexagone.c hexagone.h ./vector2.h
 vector2.o: vector2.c vector2.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+led.o: led.c led.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+pio.o: ../../drivers/avr/pio.c ../../drivers/avr/pio.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+
 
 # Link
-main.out: main.o vector2.o hexagone.o
+main.out: main.o vector2.o hexagone.o led.o pio.o system.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
