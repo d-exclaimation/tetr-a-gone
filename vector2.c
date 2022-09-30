@@ -33,7 +33,7 @@ Vector2_t vec2_inv(const Vector2_t vec)
 
 Vector2_t vec2_clamp(const Vector2_t vec)
 {
-    return vec2_clamp_in(vec, 0, MAX_X, 0, MAX_Y);
+    return vec2_clamp_in(vec, MIN_X, MAX_X, MIN_Y, MAX_Y);
 }
 
 Vector2_t vec2_clamp_in(const Vector2_t vec, const int8_t min_x, const int8_t max_x, const int8_t min_y, const int8_t max_y)
