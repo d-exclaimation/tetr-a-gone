@@ -21,12 +21,15 @@ all: main.out
 main.o: main.c ./vector2.h ./hexagone.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+hexagone.o: hexagone.c hexagone.h ./vector2.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 vector2.o: vector2.c vector2.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 
 # Link
-main.out: main.o vector2.o
+main.out: main.o vector2.o hexagone.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
