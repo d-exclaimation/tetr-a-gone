@@ -8,7 +8,7 @@
 
 #include "hexagone.h"
 
-void hexagone_move(Hexagone_t* game, const Vector2_t dir, void (*callback)(void))
+void hexagone_move(Hexagone_t* game, const Vector2_t dir)
 {
     // Apply physics on the previous location
     hexagone_physics(game, game->player);
@@ -17,7 +17,7 @@ void hexagone_move(Hexagone_t* game, const Vector2_t dir, void (*callback)(void)
     game->player = vec2_clamp(vec2_add(game->player, dir));
 
     // Perform checks and action
-    hexagone_audit(game, callback);
+    hexagone_audit(game, NULL);
 }
 
 void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
@@ -43,7 +43,10 @@ void hexagone_audit(Hexagone_t* game, void (*callback)(void))
     }
 
     game->state = LOSE;
-    (*callback)();
+
+    if (callback != NULL) { 
+        (*callback)();
+    }
 }
 
 bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc)
