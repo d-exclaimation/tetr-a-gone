@@ -8,19 +8,16 @@
 
 #include "hexagone.h"
 
-
-void hexagone_move(Hexagone_t* game, const Vector2_t dir)
+void hexagone_move(Hexagone_t* game, const Vector2_t dir, void (*callback)(void))
 {
-    const Vector2_t new_pos = vec2_clamp(vec2_add(game->player, dir));
-    
     // Apply physics on the previous location
     hexagone_physics(game, game->player);
 
-    if (hexagone_fallen_p(game, new_pos)) {
-        game->state = LOSE;
-    }
+    // Move player
+    game->player = vec2_clamp(vec2_add(game->player, dir));
 
-    game->player = new_pos;
+    // Perform checks and action
+    hexagone_audit(game, callback);
 }
 
 void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
@@ -30,10 +27,31 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
         return;
     }
 
-    game->map[loc.y][loc.x] -= 1;
+    game->map[loc.y][loc.x]--;
+}
+
+void hexagone_audit(Hexagone_t* game, void (*callback)(void))
+{
+    // If game had already ended prior, no action is performed
+    if (hexagone_ended_p(game)) {
+        return;
+    }
+
+    // If the player has not fallen yet, no action is performed
+    if (!hexagone_fallen_p(game, game->player)) {
+        return;
+    }
+
+    game->state = LOSE;
+    (*callback)();
 }
 
 bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc)
 {
     return game->map[loc.y][loc.x] == BROKEN;
+}
+
+bool hexagone_ended_p(const Hexagone_t* game)
+{
+    return game->state >= WIN;
 }

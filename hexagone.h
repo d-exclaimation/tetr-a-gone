@@ -59,8 +59,9 @@ typedef struct {
  * 
  * \param game The game states
  * \param dir The direction where the player is moving towards
+ * \param callback Additional actions done if the gane has ended because of this action
  */
-void hexagone_move(Hexagone_t* game, const Vector2_t dir);
+void hexagone_move(Hexagone_t* game, const Vector2_t dir, void (*callback)(void));
 
 /*!
  * \brief Apply physics to the platform on a specific location
@@ -69,6 +70,14 @@ void hexagone_move(Hexagone_t* game, const Vector2_t dir);
  * \param loc The location in the map to apply physics to
  */
 void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
+
+/**
+ * \brief Performs check on the player and the current state of the game if the game has ended or not 
+ *
+ * \param game The game states 
+ * \param callback Additional actions done if the gane has ended (not before the checks)
+ */
+void hexagone_audit(Hexagone_t* game, void (*callback)(void));
 
 
 /**
@@ -80,5 +89,15 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
  * \returns True if the location is on top a broken platform
  */
 bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc);
+
+
+/*!
+ * \brief Check if the game has ended or not
+ * 
+ * \param game The game states
+ * 
+ * \returns True if the player either had lost or won
+ */
+bool hexagone_ended_p(const Hexagone_t* game);
 
 #endif
