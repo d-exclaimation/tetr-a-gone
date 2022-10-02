@@ -5,6 +5,8 @@
 //  Created by vno16 on 11:59.
 //
 
+/** TODO: Probably get a better name and rework a bit to be more reliable (consider sending the other player positions)*/
+
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
