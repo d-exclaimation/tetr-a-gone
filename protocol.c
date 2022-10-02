@@ -7,6 +7,7 @@
 
 #include "protocol.h"
 
+/** TODO: Update to use the current vector2 API */
 static Point_t parse_packet(uint8_t packet)
 {
     int8_t col = packet % 100 / 10;

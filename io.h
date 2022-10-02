@@ -5,6 +5,8 @@
 //  Created by vno16 on 16:05.
 //
 
+/** TODO: Split display and controls into their own module */
+
 #ifndef IO_H
 #define IO_H
 

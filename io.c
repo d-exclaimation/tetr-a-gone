@@ -60,6 +60,7 @@ void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
     rate = blink_rate;
 }
 
+/** TODO: Update to use the current hexagone API */
 void control(Hexagone_t* game)
 {
     navswitch_update();
