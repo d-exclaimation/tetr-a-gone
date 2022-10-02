@@ -70,6 +70,14 @@ void hexagone_move(Hexagone_t* game, const Vector2_t dir);
  */
 void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
 
+/**
+ * \brief Performs check on the player and the current state of the game if the game has ended or not 
+ *
+ * \param game The game states 
+ * \param callback Additional actions done if the gane has ended not before the checks (NULL for no further action)
+ */
+void hexagone_audit(Hexagone_t* game, void (*callback)(void));
+
 
 /**
  * \brief Check if the current location is standing on top a broken platform
@@ -80,5 +88,15 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
  * \returns True if the location is on top a broken platform
  */
 bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc);
+
+
+/*!
+ * \brief Check if the game has ended or not
+ * 
+ * \param game The game states
+ * 
+ * \returns True if the player either had lost or won
+ */
+bool hexagone_ended_p(const Hexagone_t* game);
 
 #endif
