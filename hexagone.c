@@ -44,6 +44,7 @@ void hexagone_audit(Hexagone_t* game, void (*callback)(void))
 
     game->state = LOSE;
 
+    // NULL indicate no callback, instead of using an empty function :)
     if (callback != NULL) { 
         (*callback)();
     }
@@ -56,5 +57,6 @@ bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc)
 
 bool hexagone_ended_p(const Hexagone_t* game)
 {
+    // Win or Lose are over 10 enums
     return game->state >= WIN;
 }

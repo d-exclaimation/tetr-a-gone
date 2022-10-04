@@ -41,6 +41,8 @@ Vector2_t vec2_clamp_in(const Vector2_t vec, const int8_t min_x, const int8_t ma
     int8_t new_x = vec.x;
     int8_t new_y = vec.y;
 
+    // I don't know where the min and max functions are :)
+
     // Adjust x within boundaries   
     new_x = (new_x < min_x) ? min_x : new_x;
     new_x = (new_x > max_x) ? max_x : new_x;

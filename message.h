@@ -11,25 +11,47 @@
 
 #include "vector2.h"
 
+/**
+ * \brief The distance multiplied for the type when encoded
+ */
 #define TYPE_DISTANCE 49
+
+/**
+ * \brief The distance multiplied for the vector payload column when encoded
+ */
 #define COL_DISTANCE 7
+
+/**
+ * \brief The distance multiplied for the vector payload row when encoded
+ */
 #define ROW_DISTANCE 1
 
+/**
+ * \typedef Typeno_t
+ * \brief Possible type number and what they represents
+ */
 typedef enum {
     PLAYER_POSITION = 1,
     PLATFORM_FORCE = 2,
     GAME_OVER = 3,
     INVALID_PACKET = 0
-} MType_t; 
+} Typeno_t; 
 
+/**
+ * \typedef Message_t
+ * \brief A human readable intermediate data for the packet before encoding
+ * 
+ * \param typeno A number for the type of message
+ * \param payload A vector payload for the message
+ */
 typedef struct {
-    MType_t typeno;
+    Typeno_t typeno;
     Vector2_t payload;
 } Message_t;
 
 /**
  * \typedef Packet_t
- * \brief The IR packet
+ * \brief The encoded IR packet
  */
 typedef uint8_t Packet_t;
 
@@ -41,7 +63,7 @@ typedef uint8_t Packet_t;
  * 
  * \returns Encoded packet in 8 bit 
  */
-Message_t message(const MType_t typeno, const Vector2_t vector);
+Message_t message(const Typeno_t typeno, const Vector2_t vector);
 
 
 /**
@@ -71,6 +93,14 @@ Message_t message_force_vec2(const Vector2_t location);
 /**
  * \brief Encode outgoing message into a 8 bit integer packet
  * 
+ * \internal
+ * Encoding using base 7 with 3 fields:
+ * - 2: Type number (valid range 0 - 3)
+ * - 1: Vector payload column (valid range 0 - 4)
+ * - 0: Vector payload row (valid range 0 - 6)
+ * - Valid values: 0 - 146, 200 - 246, and 300
+ * \endinternal
+ * 
  * \param msg Message to be encoded
  * 
  * \returns 8 bit unsigned integer for the message
@@ -81,6 +111,14 @@ Packet_t message_encode(const Message_t msg);
  * \brief Decode incoming packet
  * 
  * \param packet 8 bit integer packet
+ * 
+ * \internal
+ * Encoding using base 7 with 3 fields:
+ * - 2: Type number (valid range 0 - 3)
+ * - 1: Vector payload column (valid range 0 - 4)
+ * - 0: Vector payload row (valid range 0 - 6)
+ * - Valid values: 0 - 146, 200 - 246, and 300
+ * \endinternal
  * 
  * \returns Possible decoded message from the packet, otherwise an invalid message is returned
  */
