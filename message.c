@@ -50,7 +50,7 @@ Message_t message_decode(const Packet_t packet)
     uint8_t raw_payload = packet % TYPE_DISTANCE;
 
     // Double check packet is within the expected range
-    bool is_within_range = raw_payload <= (MAX_X * COL_DISTANCE + MAX_Y * ROW_DISTANCE);
+    bool is_within_range = packet <= (GAME_OVER * TYPE_DISTANCE) && raw_payload <= (MAX_X * COL_DISTANCE + MAX_Y * ROW_DISTANCE);
     bool is_type_valid = raw_typeno <= GAME_OVER;
 
     // If either the payload or typeno is not within the appropriate boundaries, packet is invalid
