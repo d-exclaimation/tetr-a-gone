@@ -49,6 +49,7 @@ typedef Platform_t Map_t[MAX_Y + 1][MAX_X + 1];
  */
 typedef struct {
     Vector2_t player;
+    Vector2_t other;
     Map_t map;
     Case_t state;
 } Hexagone_t;
