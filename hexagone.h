@@ -44,6 +44,7 @@ typedef Platform_t Map_t[MAX_Y + 1][MAX_X + 1];
  * \brief All states of the game
  * 
  * \param player The current position of the player
+ * \param player The current position of the other player
  * \param map The current state of the map
  * \param state The current case of the game
  */
