@@ -36,11 +36,14 @@ pio.o: ../../drivers/avr/pio.c ../../drivers/avr/pio.h ../../drivers/avr/system.
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+message.o: ./message.c ./message.h ./vector2.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # TODO: Add the new display, control, and communication module
 
 
 # Link
-main.out: main.o vector2.o hexagone.o led.o pio.o system.o
+main.out: main.o vector2.o hexagone.o led.o pio.o system.o message.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
