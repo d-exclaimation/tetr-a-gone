@@ -56,7 +56,7 @@
 /*!
  * \brief No direction
  */
-#define VEC2_ZERO vec2(1, 0)
+#define VEC2_ZERO vec2(0, 0)
 
 /*!
  * \typedef Vector2_t
