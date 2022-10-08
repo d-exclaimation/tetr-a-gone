@@ -25,7 +25,7 @@ static void setup(void)
     pacer_init(PACER_RATE);
     led_init();
     comms_init();
-    io_init(BLINK_RATE);
+    io_init(PACER_RATE, BLINK_RATE);
 }
 
 int main(void)
