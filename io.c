@@ -52,9 +52,8 @@ static int8_t rate = 12;
  */
 static int8_t blinked = 0;
 
-void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
+void io_init(uint8_t blink_rate)
 {
-    pacer_init(pacer_rate);
     ledmat_init();
     navswitch_init();
     rate = blink_rate;
@@ -63,35 +62,39 @@ void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
 /*! TODO: Update to use the current hexagone API */
 void control(Hexagone_t* game)
 {
+    Vector2_t movement = VEC2_ZERO;
     navswitch_update();
 
     // TODO: Change to allow whenever the game has not ended
-    if (game->state == DONE)
+    if (game->state != GOING)
         return;
     
     if (navswitch_push_event_p(NAVSWITCH_NORTH)) {
-        proto_send(game->player);
-        move(game, UP);
+        movement = VEC2_NORTH;
+        
     }
     
     if (navswitch_push_event_p(NAVSWITCH_SOUTH)) {
-        proto_send(game->player);
-        move(game, DOWN);
+        movement = VEC2_SOUTH;
     }
 
     if (navswitch_push_event_p(NAVSWITCH_EAST)) {
-        proto_send(game->player);
-        move(game, RIGHT);
+        movement = VEC2_EAST;
     }
 
     if (navswitch_push_event_p(NAVSWITCH_WEST)) {
-        proto_send(game->player);
-        move(game, LEFT);
+        movement = VEC2_WEST;
+    }
+
+    if (!vec2_eq(movement, VEC2_ZERO)) {
+        comms_publish(message_force_vec2(game->player));
+        hexagone_move(game, movement);
+        comms_publish(message_player_vec2(game->player));
     }
 
     // Close the communications as the game has ended
-    if (isEnded(game)) {
-        proto_end();
+    if (hexagone_ended_p(game)) {
+        comms_publish(message_end());
     }
 }
 
@@ -101,14 +104,14 @@ void display(const Hexagone_t* game)
     // Turn off any previusly turned on columns
     pio_output_high(cols[prev_col]);
 
-    for (int8_t row = 0; row <= MAX_ROW; row++) {
+    for (int8_t row = 0; row <= MAX_Y; row++) {
 
         // Player 1 location during non-blink period
-        if (game->player.col == curr_col && game->player.row == row && !blinked) {
+        if (game->player.x == curr_col && game->player.y == row && !blinked) {
             pio_output_low(rows[row]);
 
         // Any hole location
-        } else if (game->map[curr_col][row] == HOLE) {
+        } else if (game->map[row][curr_col] == BROKEN) {
             pio_output_low(rows[row]);
         
         // Any non hole location
@@ -124,12 +127,11 @@ void display(const Hexagone_t* game)
 
     // Set previous column and wait for next iteration from the pacer
     prev_col = curr_col;
-    pacer_wait();
 
     curr_col++;
 
     // Start over
-    if (curr_col > MAX_COL) {
+    if (curr_col > MAX_X) {
         curr_col = 0;
         blinked = (blinked + 1) % rate;
     }
