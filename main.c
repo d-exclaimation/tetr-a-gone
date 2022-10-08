@@ -58,7 +58,6 @@ int main(void)
         control(&game);
 
         comms_subscribe(&game);
-        /** TODO: Perform housekeeping for edge cases here */
     }
 
     return 0;
