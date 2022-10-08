@@ -33,7 +33,7 @@ typedef enum {
     RIGID
 } Platform_t;
 
-/**
+/*!
  * \typedef Map_t
  * \brief A 2D array of all platforms on the map
  */
@@ -72,7 +72,7 @@ void hexagone_move(Hexagone_t* game, const Vector2_t dir);
  */
 void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
 
-/**
+/*!
  * \brief Performs check on the player and the current state of the game if the game has ended or not 
  *
  * \param game The game states 
@@ -81,7 +81,7 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
 void hexagone_audit(Hexagone_t* game, void (*callback)(void));
 
 
-/**
+/*!
  * \brief Check if the current location is standing on top a broken platform
  * 
  * \param game The game states
