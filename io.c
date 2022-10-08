@@ -109,7 +109,11 @@ void display(const Hexagone_t* game)
         // Player 1 location during non-blink period
         if (game->player.x == curr_col && game->player.y == row && !blinked) {
             pio_output_low(rows[row]);
-
+        
+        // Player 2 location
+        } else if (game->other.x == curr_col && game->other.y == row && !blinked) {
+            pio_output_low(rows[row]);
+        
         // Any hole location
         } else if (game->map[row][curr_col] == BROKEN) {
             pio_output_low(rows[row]);

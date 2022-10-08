@@ -18,7 +18,7 @@ all: main.out
 
 
 # Compile
-main.o: main.c ./vector2.h ./hexagone.h ./led.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
+main.o: main.c ./vector2.h ./hexagone.h ./led.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./communication.h ./io.h ../../utils/pacer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 hexagone.o: hexagone.c hexagone.h ./vector2.h
@@ -51,7 +51,7 @@ system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 message.o: ./message.c ./message.h ./vector2.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-communication.o: ./communication.c ./communication.h ./hexagone.h ./message.h ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
+communication.o: ./communication.c ./communication.h ./hexagone.h ./message.h ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./led.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 io.o: ./io.c ./io.h ./hexagone.h ../../drivers/navswitch.h ../../drivers/ledmat.h ../../drivers/avr/system.h ../../drivers/avr/pio.h ./communication.h ./message.h
@@ -63,8 +63,14 @@ navswitch.o: ../../drivers/navswitch.c ../../drivers/navswitch.h ../../drivers/a
 ledmat.o: ../../drivers/ledmat.c ../../drivers/ledmat.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+pacer.o: ../../utils/pacer.c ../../utils/pacer.h ../../drivers/avr/system.h ../../drivers/avr/timer.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+timer.o: ../../drivers/avr/timer.c ../../drivers/avr/timer.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # Link
-main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o
+main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o pacer.o timer.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

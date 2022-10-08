@@ -41,14 +41,17 @@ void comms_subscribe(Hexagone_t* game)
 
         // Update the other player
         case PLAYER_POSITION:
+            led_on();
             game->other = msg.payload;            
             break;
 
         case PLATFORM_FORCE:
+            led_on();
             hexagone_physics(game, msg.payload);
             break;
 
         case GAME_OVER:
+            led_on();
             game->state = WIN;
             break;
 

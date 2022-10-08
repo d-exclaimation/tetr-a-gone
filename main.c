@@ -6,16 +6,26 @@
 //  Authored by vno16 and ski102 on 30 Sep 2022
 //
 
-/** TODO: Add the imports for all the necessary modules from the API */
-/** TODO: Add the imports for all game modules */
+#include "system.h"
+#include "pacer.h"
 #include "hexagone.h"
+#include "led.h"
+#include "communication.h"
+#include "io.h"
+
+#define PACER_RATE 500
+#define BLINK_RATE 10
 
 /**
  * \brief A collective setup function
  */
 static void setup(void)
 {
-    /** TODO: Initialise everything here */
+    system_init();
+    pacer_init(PACER_RATE);
+    led_init();
+    comms_init();
+    io_init(BLINK_RATE);
 }
 
 int main(void)
@@ -39,14 +49,15 @@ int main(void)
     setup();
 
     while (1) {
-        /** TODO: Wait using pacer here */
 
-        /** TODO: Display update for game state or end screen here */
+        pacer_wait();
+        led_off();
 
-        /** TODO: Get inputs and control the game here */
+        display(&game);
 
-        /** TODO: Handle communications here */
+        control(&game);
 
+        comms_subscribe(&game);
         /** TODO: Perform housekeeping for edge cases here */
     }
 

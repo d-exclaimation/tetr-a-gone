@@ -12,6 +12,7 @@
 #include "hexagone.h"
 #include "message.h"
 #include "ir_uart.h"
+#include "led.h"
 
 /*!
  * \brief Initialize communications
