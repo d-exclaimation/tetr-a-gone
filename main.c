@@ -31,8 +31,8 @@ static void setup(void)
 int main(void)
 {
     Hexagone_t game = {
-        .player = VEC2_ZERO,
-        .other = vec2_inv(VEC2_ZERO),
+        .player = vec2_inv(VEC2_ZERO),
+        .other = VEC2_ZERO,
         .state = GOING,
         /** TODO: I don't know how to fill in a 2D array with the same values :( */
         .map = {
