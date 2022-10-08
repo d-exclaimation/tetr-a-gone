@@ -54,7 +54,7 @@ message.o: ./message.c ./message.h ./vector2.h
 communication.o: ./communication.c ./communication.h ./hexagone.h ./message.h ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./led.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-io.o: ./io.c ./io.h ./hexagone.h ../../drivers/navswitch.h ../../drivers/ledmat.h ../../drivers/avr/system.h ../../drivers/avr/pio.h ./communication.h ./message.h
+io.o: ./io.c ./io.h ./hexagone.h ../../drivers/navswitch.h ../../drivers/ledmat.h ../../drivers/avr/system.h ../../drivers/avr/pio.h ./communication.h ./message.h ../../utils/tinygl.h ../../utils/pacer.h ../../fonts/font5x5_1.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 navswitch.o: ../../drivers/navswitch.c ../../drivers/navswitch.h ../../drivers/avr/delay.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
@@ -69,8 +69,17 @@ pacer.o: ../../utils/pacer.c ../../utils/pacer.h ../../drivers/avr/system.h ../.
 timer.o: ../../drivers/avr/timer.c ../../drivers/avr/timer.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+tinygl.o: ../../utils/tinygl.c ../../utils/tinygl.h ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+font.o: ../../utils/font.c ../../utils/font.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+display.o: ../../drivers/display.c ../../drivers/display.h ../../drivers/avr/system.h ../../drivers/ledmat.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # Link
-main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o pacer.o timer.o
+main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o pacer.o timer.o tinygl.o font.o display.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

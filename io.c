@@ -52,11 +52,15 @@ static int8_t rate = 12;
  */
 static int8_t blinked = 0;
 
-void io_init(uint8_t blink_rate)
+void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
 {
     ledmat_init();
     navswitch_init();
     rate = blink_rate;
+    tinygl_init(pacer_rate);
+    tinygl_font_set(&font5x5_1);
+    tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
+    
 }
 
 /*! TODO: Update to use the current hexagone API */
@@ -101,6 +105,12 @@ void control(Hexagone_t* game)
 
 void display(const Hexagone_t* game)
 {
+    if (hexagone_ended_p(game)) {
+        tinygl_text(game->state == WIN ? "W" : "L");
+        tinygl_update();
+        return;
+    }
+
     // Turn off any previusly turned on columns
     pio_output_high(cols[prev_col]);
 
