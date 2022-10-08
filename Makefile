@@ -54,11 +54,17 @@ message.o: ./message.c ./message.h ./vector2.h
 communication.o: ./communication.c ./communication.h ./hexagone.h ./message.h ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-# TODO: Add the new display, control, and communication module
+io.o: ./io.c ./io.h ./hexagone.h ../../drivers/navswitch.h ../../drivers/ledmat.h ../../drivers/avr/system.h ../../drivers/avr/pio.h ./communication.h ./message.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
+navswitch.o: ../../drivers/navswitch.c ../../drivers/navswitch.h ../../drivers/avr/delay.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+ledmat.o: ../../drivers/ledmat.c ../../drivers/ledmat.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link
-main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o
+main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
