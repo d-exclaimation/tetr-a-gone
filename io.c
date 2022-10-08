@@ -7,7 +7,7 @@
 
 #include "io.h"
 
-/**
+/*!
  * All the PIOs for LED Matrix rows
  */
 static const pio_t rows[] = {
@@ -21,7 +21,7 @@ static const pio_t rows[] = {
 };
 
 
-/**
+/*!
  * All the PIOs for LED Matrix columns
  */
 static const pio_t cols[] = {
@@ -32,22 +32,22 @@ static const pio_t cols[] = {
     LEDMAT_COL5_PIO
 }; 
 
-/**
+/*!
  * Previous column that has been turned on
  */
 static int8_t prev_col = 0;
 
-/**
+/*!
  * Current column that has not been turned on
  */
 static int8_t curr_col = 0;
 
-/**
+/*!
  * Display blinking rate
  */
 static int8_t rate = 12;
 
-/**
+/*!
  * Current blinking period (on if 0, otherwise off)
  */
 static int8_t blinked = 0;
@@ -60,7 +60,7 @@ void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
     rate = blink_rate;
 }
 
-/** TODO: Update to use the current hexagone API */
+/*! TODO: Update to use the current hexagone API */
 void control(Hexagone_t* game)
 {
     navswitch_update();
