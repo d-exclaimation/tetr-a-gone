@@ -17,7 +17,7 @@
 #define BLINK_RATE 10
 
 /**
- * \brief A collective setup function
+ * @brief A collective setup function
  */
 static void setup(void)
 {
@@ -28,11 +28,12 @@ static void setup(void)
     io_init(PACER_RATE, BLINK_RATE);
 }
 
+
 int main(void)
 {
     Hexagone_t game = {
-        .player = VEC2_ZERO,
-        .other = vec2_inv(VEC2_ZERO),
+        .player = vec2_inv(VEC2_ZERO),
+        .other = vec2(-1, -1),
         .state = GOING,
         /** TODO: I don't know how to fill in a 2D array with the same values :( */
         .map = {
@@ -51,13 +52,15 @@ int main(void)
     while (1) {
 
         pacer_wait();
+
         led_off();
+
+        comms_subscribe(&game);
 
         display(&game);
 
         control(&game);
 
-        comms_subscribe(&game);
     }
 
     return 0;

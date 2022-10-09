@@ -283,14 +283,14 @@ static Testcode_t hexagone_audit_test(void)
     // Audit should change game state properly
     game.map[0][0] = BROKEN;
     game.player = VEC2_ZERO;
-    hexagone_audit(&game, NULL);
+    hexagone_audit(&game);
     if (game.state != LOSE)
         return FAIL;
 
     game.state = GOING;
     game.map[0][0] = RIGID;
     game.player = VEC2_ZERO;
-    hexagone_audit(&game, NULL);
+    hexagone_audit(&game);
     if (game.state != GOING)
         return FAIL;
 

@@ -9,14 +9,6 @@
 #include "communication.h"
 
 
-/*!
- * \brief Send an ending message if audit result in game ending after receiveing a message
- */
-static void comms_end(void)
-{
-    comms_publish(message_end());
-}
-
 void comms_init(void)
 {
     ir_uart_init();
@@ -33,31 +25,39 @@ void comms_subscribe(Hexagone_t* game)
     if (!ir_uart_read_ready_p()) {
         return;
     }
+    
+    const Packet_t packet = ir_uart_getc();
+    const Message_t msg = message_decode(packet);
 
-    Packet_t packet = ir_uart_getc();
-    Message_t msg = message_decode(packet);
     switch (msg.typeno) {
         
-
         // Update the other player
         case PLAYER_POSITION:
-            led_on();
             game->other = msg.payload;            
             break;
 
+        // Perform physics on the platform
         case PLATFORM_FORCE:
-            led_on();
             hexagone_physics(game, msg.payload);
             break;
 
+        // End the game if not ended already
         case GAME_OVER:
-            led_on();
-            game->state = WIN;
+            game->state = hexagone_ended_p(game) ? game->state : WIN;
             break;
 
         default:
-            break;
-
-        hexagone_audit(game, &comms_end);
+            return;
     }
+
+    // Turn on LED everytime a valid message is received
+    led_on();
+
+    // Send an ending message if the player fell or had fallen after receiving a message
+    if (hexagone_fallen_p(game, game->player)) {
+        comms_publish(message_end());
+    }
+    
+    // Performs checks
+    hexagone_audit(game);
 }

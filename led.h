@@ -13,30 +13,30 @@
 #include "pio.h"
 #include "system.h"
 
-/*!
- * \brief Initialise the Blue LED PIO as output start as turned off
+/**
+ * @brief Initialise the Blue LED PIO as output start as turned off
  */
 void led_init(void);
 
-/*!
- * \brief Turn on Blue LED
+/**
+ * @brief Turn on Blue LED
  */
 void led_on(void);
 
-/*!
- * \brief Turn off Blue LED
+/**
+ * @brief Turn off Blue LED
  */
 void led_off(void);
 
-/*!
- * \brief Toggle LED from on to off or off to on
+/**
+ * @brief Toggle LED from on to off or off to on
  */
 void led_toggle(void);
 
-/*!
- * \brief Get the status of the LED
+/**
+ * @brief Get the status of the LED
  * 
- * \returns True if the LED is currently on
+ * @returns True if the LED is currently on
  */
 bool led_active_p(void);
 

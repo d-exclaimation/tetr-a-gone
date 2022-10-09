@@ -16,8 +16,8 @@ void hexagone_move(Hexagone_t* game, const Vector2_t dir)
     // Move player
     game->player = vec2_clamp(vec2_add(game->player, dir));
 
-    // Perform checks and action
-    hexagone_audit(game, NULL);
+    // Perform checks
+    hexagone_audit(game);
 }
 
 void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
@@ -30,7 +30,7 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
     game->map[loc.y][loc.x]--;
 }
 
-void hexagone_audit(Hexagone_t* game, void (*callback)(void))
+void hexagone_audit(Hexagone_t* game)
 {
     // If game had already ended prior, no action is performed
     if (hexagone_ended_p(game)) {
@@ -43,11 +43,6 @@ void hexagone_audit(Hexagone_t* game, void (*callback)(void))
     }
 
     game->state = LOSE;
-
-    // NULL indicate no callback, instead of using an empty function :)
-    if (callback != NULL) { 
-        (*callback)();
-    }
 }
 
 bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc)

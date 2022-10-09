@@ -14,23 +14,23 @@
 #include "ir_uart.h"
 #include "led.h"
 
-/*!
- * \brief Initialize communications
+/**
+ * @brief Initialize communications
  */
 void comms_init(void);
 
-/*!
- * \brief Publish a message through infrared
+/**
+ * @brief Publish a message through infrared
  * 
- * \param msg The message being sent
+ * @param msg The message being sent
  */
 void comms_publish(const Message_t msg);
 
 
-/*!
- * \brief Subscribe to any incoming messages and apply changes to the game
+/**
+ * @brief Subscribe to any incoming messages and apply changes to the game
  * 
- * \param game The game states
+ * @param game The game states
  */
 void comms_subscribe(Hexagone_t* game);
 
