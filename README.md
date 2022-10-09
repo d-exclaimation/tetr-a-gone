@@ -1,7 +1,6 @@
-
 # Tetr-A-Gone (Group 207)
 
-*Floor pieces break slowly when you walk on them - keep moving and survive longest*
+*Each time a player walks over a floor piece, it becomes unstable and eventually fall apart! Keep moving to stay alive*
 
 By [Vincent ~ (vno16)](vno16@uclive.ac.nz) and [Natalie Kim (ski102)](ski102@uclive.ac.nz) (ENCE260 2022)
 
@@ -9,17 +8,17 @@ By [Vincent ~ (vno16)](vno16@uclive.ac.nz) and [Natalie Kim (ski102)](ski102@ucl
 
 ### Brief
 
-Both players will be dropped above many square platforms, 7x10 to be precise (each board show half of the entire map, players will be dropped on their half of the map). 
+Players will be dropped above a map of 7x10 rectangular platform consisting of 70 floor tiles (each board show half of the entire map, players will be dropped on their half of the map). 
 
-When any player moved away from a platform, it will reduce its strength by some amount.
+Each time a player moves out of a plaform tile, it will reduce the tile's durability by some amount.
 
-If a platform no longer have enough strength to hold itself together, it will be broken and open a hole on that location.
+Once the platform tile no longer has enough strength to hold itself together, it will be disintegrate and open a hole on the location.
 
-When a player moved into a hole or got trapped with holes from all 4 sides, they fall and lose the game. 
+If any of the two players moves into the hole or gets trapped with holes on all 4 sides, they will fall and loses the game. 
 
 ### Objective
 
-Be last player standing (last to fall) or make sure the other player fell before you.
+Be the last player standing (last to fall) or make sure the other player falls before you.
 
 ### Setup 
 
@@ -27,11 +26,11 @@ Setup the funkits to have the IR receivers and transmitters facing each other.
 
 ![Facing each other](https://vincent-shared-files.netlify.app/images/funkits.jpg)
 
-<small>Make sure the controls are either on the right or bottom side of the funkit from each player point of view</small>
+<small>Make sure the controls are either on the right or bottom side of the funkit from each player's point of view</small>
 
 The display will be **the combined of the LED matrix displays on both board**.
 
-Each player will start on their **bottom corner**  of the LED display.
+Each player will start on their **bottom left corner**  of the LED display.
 
 
 ### Playing
@@ -40,15 +39,15 @@ Each player will start on their **bottom corner**  of the LED display.
 - **Constant light**: A hole.
 - **No light**: A platform that is not broken yet.
 
-You will start off on your side of the board at the bottom corner (**blinking light**).
+You will start off on your side of the board at the bottom left corner (**blinking light**).
 
-Move the navigation switch in any directions to move your player.
+Move the navigation switch in any direction to move your player dot.
 
-The previous platform where you were before will slowly lose strength. If it is broken, it will be a hole and glow (**constant light**).
+Each time you pass over a platform tile, it will slowly lose durability. Eventually, the platform tile will weaken and breakdown, becoming a hole and glowing (**constant light**).
 
-You can move into the other player side of board and vice versa. Each time the other player moves, you should see the blue LED on your board flash for a short period of time.
+You can move into the other player's side of board and vice versa. Each time the other player moves, you should see the blue LED on your board flash for a short period of time.
 
-If any player fell (a player move into a hole (**constant light**) or is sorrounded by holes on all 4 sides), the game will end and shown a letter indicating who won (**W** for winner, **L** for loser). 
+If any player falls (a player move into a hole (**constant light**) or is sorrounded by holes on all 4 sides), the game will end and will display a letter indicating who won (**W** for winner, **L** for loser). 
 
 ### Controls
 
