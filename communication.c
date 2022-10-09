@@ -26,8 +26,8 @@ void comms_subscribe(Hexagone_t* game)
         return;
     }
     
-    Packet_t packet = ir_uart_getc();
-    Message_t msg = message_decode(packet);
+    const Packet_t packet = ir_uart_getc();
+    const Message_t msg = message_decode(packet);
 
     switch (msg.typeno) {
         
