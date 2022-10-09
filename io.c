@@ -40,7 +40,6 @@ static const uint8_t options[] = {NAVSWITCH_NORTH, NAVSWITCH_SOUTH, NAVSWITCH_EA
 /**
  * All directions count
  */
-
 static const size_t num_directions = 4;
 
 /**

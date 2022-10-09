@@ -9,17 +9,30 @@
 #include "communication.h"
 
 
+/**
+ * @brief initialize communications
+ */
 void comms_init(void)
 {
     ir_uart_init();
 }
 
+/**
+ * @brief publish a message through infrared
+ * 
+ * @param msg the message being sent
+ */
 void comms_publish(const Message_t msg)
 {
     Packet_t packet = message_encode(msg);
     ir_uart_putc(packet);
 }
 
+/**
+ * @brief Redundantly publish a message through infrared to combat any losses
+ * 
+ * @param msg The message being sent
+ */
 void comms_redundant_publish(const Message_t msg)
 {
     for (size_t i = 0; i < REDUNDANCY_LIMIT; i++) {
@@ -27,6 +40,11 @@ void comms_redundant_publish(const Message_t msg)
     }
 }
 
+/**
+ * @brief Subscribe to any incoming messages and apply changes to the game
+ * 
+ * @param game The game states
+ */
 void comms_subscribe(Hexagone_t* game)
 {
     if (hexagone_ended_p(game) || !ir_uart_read_ready_p()) {

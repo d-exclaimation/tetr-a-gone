@@ -98,7 +98,6 @@ bool vec2_eq(const Vector2_t lhs, const Vector2_t rhs);
  */
 Vector2_t vec2_add(const Vector2_t lhs, const Vector2_t rhs);
 
-
 /**
  * @brief Invert the vector by the (y = 1 - x) line
  * 
