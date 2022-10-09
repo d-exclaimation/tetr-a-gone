@@ -19,9 +19,9 @@ make test
 ## Outputs
 
 1. Each individual test result:
-    - [+ `OK` +]: Test passed
-    - [- `FAIL` -]: Test failed, but continue
-    - [- `FATAL` -]: Test failed and stop
+    - [+ OK +]: Test passed
+    - [- FAIL -]: Test failed, but continue
+    - [- FATAL -]: Test failed and stop
 2. The amount of tests passed from the total amount of tests given
 
 ### Example
