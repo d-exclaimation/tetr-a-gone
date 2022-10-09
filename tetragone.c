@@ -100,8 +100,8 @@ bool tetragone_trapped_p(const Tetragone_t* game, const Vector2_t loc)
 {   
     const Vector2_t all_dirs[] = {VEC2_NORTH, VEC2_SOUTH, VEC2_EAST, VEC2_WEST};
     for (size_t i = 0; i < (sizeof(all_dirs) / sizeof(all_dirs[0])); i++) {
-        const Vector2_t side = vec2_add(loc, all_dirs[i]);
-        if (!tetragone_fallen_p(game, side)) {
+        const Vector2_t side = vec2_clamp(vec2_add(loc, all_dirs[i]));
+        if (!vec2_eq(side, loc) && !tetragone_fallen_p(game, side)) {
             return false;
         }
     }
