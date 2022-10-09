@@ -25,7 +25,7 @@ Be last player standing (last to fall) or make sure the other player fell before
 
 Setup the funkits to have the IR receivers and transmitters facing each other.
 
-![Facing each other](https://www.tomrizzi.com/images/ucfk5.png)
+![Facing each other](https://vincent-shared-files.netlify.app/images/funkits.jpg)
 
 <small>Make sure the controls are either on the right or bottom side of the funkit from each player point of view</small>
 
