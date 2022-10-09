@@ -78,6 +78,7 @@ font.o: ../../utils/font.c ../../utils/font.h ../../drivers/avr/system.h
 display.o: ../../drivers/display.c ../../drivers/display.h ../../drivers/avr/system.h ../../drivers/ledmat.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+
 # Link
 main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o pacer.o timer.o tinygl.o font.o display.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
@@ -89,9 +90,25 @@ main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o us
 clean:
 		-$(DEL) -f *.o *.out *.hex
 
+# Target: test project
+.PHONY: test
+test:
+	./test.sh	
 
-# Target: program project.
-.PHONY: program
-program: main.out
+# Target: clean build project.
+.PHONY: fresh
+fresh: clean all
+
+# Target: compile and package project.
+.PHONY: build
+build: main.out
 	$(OBJCOPY) -O ihex main.out main.hex
+
+# Target: build, export, run project.
+.PHONY: program
+program: build
 	dfu-programmer atmega32u2 erase; dfu-programmer atmega32u2 flash main.hex; dfu-programmer atmega32u2 start
+
+# Target: clean, build, export, and run project.
+.PHONY: prod
+prod: clean program
