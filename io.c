@@ -7,7 +7,7 @@
 
 #include "io.h"
 
-/*!
+/**
  * All the PIOs for LED Matrix rows
  */
 static const pio_t rows[] = {
@@ -21,7 +21,7 @@ static const pio_t rows[] = {
 };
 
 
-/*!
+/**
  * All the PIOs for LED Matrix columns
  */
 static const pio_t cols[] = {
@@ -32,33 +32,33 @@ static const pio_t cols[] = {
     LEDMAT_COL5_PIO
 }; 
 
-/*!
+/**
  * All the movement of the navswitch
  */
 static const uint8_t options[] = {NAVSWITCH_NORTH, NAVSWITCH_SOUTH, NAVSWITCH_EAST, NAVSWITCH_WEST};
 
-/*!
+/**
  * All directions count
  */
 
 static const size_t num_directions = 4;
 
-/*!
+/**
  * Previous column that has been turned on
  */
 static int8_t prev_col = 0;
 
-/*!
+/**
  * Current column that has not been turned on
  */
 static int8_t curr_col = 0;
 
-/*!
+/**
  * Display blinking rate
  */
 static int8_t rate = 0;
 
-/*!
+/**
  * Current blinking period (on if 0, otherwise off)
  */
 static int8_t blinked = 0;
@@ -76,10 +76,10 @@ void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
 
 
 /**
- * \brief Move player, while publishing both location of the player and the platform to apply physics to
+ * @brief Move player, while publishing both location of the player and the platform to apply physics to
  * 
- * \param game The game states to be modified
- * \param dir The direction the player is moving
+ * @param game The game states to be modified
+ * @param dir The direction the player is moving
  */
 static void control_movement(Hexagone_t* game, const Vector2_t dir)
 {
@@ -114,9 +114,9 @@ void control(Hexagone_t* game)
 
 
 /**
- * \brief Show ending screen (W or L)
+ * @brief Show ending screen (W or L)
  *
- * \param game The game states to be displayed
+ * @param game The game states to be displayed
  */
 static void display_end_screen(const Hexagone_t* game)
 {
@@ -125,9 +125,9 @@ static void display_end_screen(const Hexagone_t* game)
 }
 
 /**
- * \brief Show the current column of the ongoing game 
+ * @brief Show the current column of the ongoing game 
  *
- * \param game The game states to be displayed
+ * @param game The game states to be displayed
  */
 static void display_game_screen(const Hexagone_t* game)
 {

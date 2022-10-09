@@ -17,7 +17,7 @@
 #define BLINK_RATE 10
 
 /**
- * \brief A collective setup function
+ * @brief A collective setup function
  */
 static void setup(void)
 {
