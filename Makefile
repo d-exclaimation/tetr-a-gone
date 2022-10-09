@@ -87,7 +87,7 @@ main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o us
 # Target: clean project
 .PHONY: clean
 clean:
-		-$(DEL) *.o *.out *.hex
+		-$(DEL) -f *.o *.out *.hex
 
 
 # Target: program project.

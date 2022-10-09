@@ -66,12 +66,12 @@ void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
 /*! TODO: Update to use the current hexagone API */
 void control(Hexagone_t* game)
 {
+    if (hexagone_ended_p(game)) {
+        return;
+    }
+
     Vector2_t movement = VEC2_ZERO;
     navswitch_update();
-
-    // TODO: Change to allow whenever the game has not ended
-    if (game->state != GOING)
-        return;
     
     if (navswitch_push_event_p(NAVSWITCH_NORTH)) {
         movement = VEC2_NORTH;

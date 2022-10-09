@@ -76,9 +76,8 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc);
  * \brief Performs check on the player and the current state of the game if the game has ended or not 
  *
  * \param game The game states 
- * \param callback Additional actions done if the gane has ended not before the checks (NULL for no further action)
  */
-void hexagone_audit(Hexagone_t* game, void (*callback)(void));
+void hexagone_audit(Hexagone_t* game);
 
 
 /*!
