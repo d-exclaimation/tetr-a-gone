@@ -84,11 +84,14 @@ main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o us
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
+# Package
+main.hex: main.out
+	$(OBJCOPY) -O ihex $< $@
 
 # Target: clean project
 .PHONY: clean
 clean:
-		-$(DEL) -f *.o *.out *.hex
+	-$(DEL) -f *.o *.out *.hex
 
 # Target: test project
 .PHONY: test
@@ -100,14 +103,9 @@ test:
 .PHONY: fresh
 fresh: clean all
 
-# Target: compile and package project.
-.PHONY: build
-build: all
-	$(OBJCOPY) -O ihex main.out main.hex
-
 # Target: build, export, run project.
 .PHONY: program
-program: build
+program: main.hex
 	dfu-programmer atmega32u2 erase; dfu-programmer atmega32u2 flash main.hex; dfu-programmer atmega32u2 start
 
 # Target: clean, build, export, and run project.
