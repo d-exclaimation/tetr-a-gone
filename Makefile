@@ -93,6 +93,7 @@ clean:
 # Target: test project
 .PHONY: test
 test:
+	chmod +x ./test.sh
 	./test.sh	
 
 # Target: clean build project.
@@ -101,7 +102,7 @@ fresh: clean all
 
 # Target: compile and package project.
 .PHONY: build
-build: main.out
+build: all
 	$(OBJCOPY) -O ihex main.out main.hex
 
 # Target: build, export, run project.

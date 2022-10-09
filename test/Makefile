@@ -45,5 +45,5 @@ clean:
 
 # Target: test project.
 .PHONY: test
-test: test.out
+test: clean all
 	./test.out
