@@ -1,7 +1,7 @@
 //
 //  msg.c
 //  
-//  Module for handling communication msg encoding and decoding (using base 7)
+//  Module for handling communication msg encoding and decoding
 //
 //  Authored by vno16 and ski102 on 04 Oct 2022
 //
@@ -39,7 +39,7 @@ Packet_t message_encode(const Message_t msg)
 {
     const Vector2_t vector = msg.payload;
 
-    // Encoding uses base 7 where the typeno is the highest number followed by the column and row
+    // Encoding uses different bases where the typeno is the highest digit followed by the column and row
     // This ensures the msg is at most 255 and at least 0 (For info look at message.h)
     return msg.typeno * TYPE_DISTANCE + vector.x * COL_DISTANCE + vector.y * ROW_DISTANCE; 
 }
@@ -51,7 +51,9 @@ Message_t message_decode(const Packet_t packet)
     const uint8_t raw_payload = packet % TYPE_DISTANCE;
 
     // Double check packet is within the expected values (For info look at message.h)
-    const bool is_within_range = packet <= (GAME_OVER * TYPE_DISTANCE) && raw_payload <= (MAX_X * COL_DISTANCE + MAX_Y * ROW_DISTANCE);
+    const bool not_higher = packet <= (GAME_OVER * TYPE_DISTANCE);
+    const bool not_lower = packet >= TYPE_DISTANCE;
+    const bool is_within_range = not_higher && not_lower && raw_payload <= (MAX_X * COL_DISTANCE + MAX_Y * ROW_DISTANCE);
 
     // If either the payload or typeno is not within the appropriate boundaries, packet is invalid
     if (!is_within_range) {

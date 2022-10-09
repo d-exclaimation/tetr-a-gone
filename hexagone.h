@@ -57,6 +57,16 @@ typedef struct {
 
 
 /**
+ * @brief Cast an untyped memory address as the game states
+ * 
+ * @warning Unsafe operation with the assumption the memory address points valid game states
+ * 
+ * @param data An untyped memory address
+ * @returns A typed memory addres
+ */
+Hexagone_t* hexagone_from(void* data);
+
+/**
  * @brief Move the player on a specific directin
  * 
  * @param game The game states

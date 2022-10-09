@@ -8,6 +8,11 @@
 
 #include "hexagone.h"
 
+Hexagone_t* hexagone_from(void* data)
+{
+    return (Hexagone_t*) data;
+}
+
 void hexagone_move(Hexagone_t* game, const Vector2_t dir)
 {
     // Apply physics on the previous location

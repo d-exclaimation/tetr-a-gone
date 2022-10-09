@@ -20,6 +20,13 @@ void comms_publish(const Message_t msg)
     ir_uart_putc(packet);
 }
 
+void comms_redundant_publish(const Message_t msg)
+{
+    for (size_t i = 0; i < REDUNDANCY_LIMIT; i++) {
+        comms_publish(msg);
+    }
+}
+
 void comms_subscribe(Hexagone_t* game)
 {
     if (hexagone_ended_p(game) || !ir_uart_read_ready_p()) {
@@ -56,10 +63,10 @@ void comms_subscribe(Hexagone_t* game)
     // Performs checks
     hexagone_audit(game);
 
-    // Send an ending message if the player fell or had fallen after receiving a message
+    // Send an ending message
+    // Done in excess to avoid game being out of sync
+    // Should cause no other problems since ending is idempotent
     if (hexagone_ended_p(game)) {
-        for (size_t i = 0; i < 5; i++) {
-            comms_publish(message_end());
-        }
+        comms_redundant_publish(message_end());
     }
 }

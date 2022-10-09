@@ -63,13 +63,13 @@ static int8_t rate = 0;
  */
 static int8_t blinked = 0;
 
-void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
+void io_init(uint16_t display_rate, uint8_t blink_period)
 {
-    rate = blink_rate;
+    rate = blink_period;
 
     ledmat_init();
     navswitch_init();
-    tinygl_init(pacer_rate);
+    tinygl_init(display_rate);
     tinygl_font_set(&font5x5_1);
     tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
 }

@@ -15,6 +15,11 @@
 #include "led.h"
 
 /**
+ * @brief The amount of repetitions done for redundancy
+ */
+#define REDUNDANCY_LIMIT 5
+
+/**
  * @brief Initialize communications
  */
 void comms_init(void);
@@ -26,6 +31,12 @@ void comms_init(void);
  */
 void comms_publish(const Message_t msg);
 
+/**
+ * @brief Redundantly publish a message through infrared to combat any losses
+ * 
+ * @param msg The message being sent
+ */
+void comms_redundant_publish(const Message_t msg);
 
 /**
  * @brief Subscribe to any incoming messages and apply changes to the game
