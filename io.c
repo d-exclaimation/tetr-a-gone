@@ -62,6 +62,12 @@ static int8_t rate = 0;
  */
 static int8_t blinked = 0;
 
+/**
+ * @brief Initialize navswitch and LED matrix
+ * 
+ * @param blink_period The amount of delay between each blink (1/rate)
+ * @param display_rate The rate which the display will be running at
+ */
 void io_init(uint16_t display_rate, uint8_t blink_period)
 {
     rate = blink_period;
@@ -80,14 +86,19 @@ void io_init(uint16_t display_rate, uint8_t blink_period)
  * @param game The game states to be modified
  * @param dir The direction the player is moving
  */
-static void control_movement(Hexagone_t* game, const Vector2_t dir)
+static void io_movement(Hexagone_t* game, const Vector2_t dir)
 {
     comms_publish(message_force_vec2(game->player));
     hexagone_move(game, dir);
     comms_publish(message_player_vec2(game->player));
 }
 
-void control(Hexagone_t* game)
+/**
+ * @brief Retreive control input and apply to the game
+ * 
+ * @param game The game itself
+ */
+void io_control(Hexagone_t* game)
 {
     // If the game has ended, no controls should be read
     if (hexagone_ended_p(game)) {
@@ -100,7 +111,7 @@ void control(Hexagone_t* game)
     navswitch_update();
     for (size_t move = 0; move < num_directions; move++) {
         if (navswitch_push_event_p(options[move])) {
-            control_movement(game, directions[move]);
+            io_movement(game, directions[move]);
             break;
         }
     }
@@ -117,7 +128,7 @@ void control(Hexagone_t* game)
  *
  * @param game The game states to be displayed
  */
-static void display_end_screen(const Hexagone_t* game)
+static void io_end_screen(const Hexagone_t* game)
 {
     tinygl_text(game->state == WIN ? "W" : "L");
     tinygl_update();
@@ -128,7 +139,7 @@ static void display_end_screen(const Hexagone_t* game)
  *
  * @param game The game states to be displayed
  */
-static void display_game_screen(const Hexagone_t* game)
+static void io_game_screen(const Hexagone_t* game)
 {
     // Turn off any previusly turned on columns
     pio_output_high(cols[prev_col - START_X]);
@@ -158,13 +169,18 @@ static void display_game_screen(const Hexagone_t* game)
     pio_output_low(cols[curr_col - START_X]);
 }
 
-void display(const Hexagone_t* game)
+/**
+ * @brief Display the current state of the game 
+ * 
+ * @param game The game itself
+ */
+void io_display(const Hexagone_t* game)
 {
     // Show end screen if the game has ended instead of the game states
     if (hexagone_ended_p(game)) {
-        display_end_screen(game);
+        io_end_screen(game);
     } else {
-        display_game_screen(game);
+        io_game_screen(game);
     }
 
     // Set previous column and wait for next iteration from the pacer

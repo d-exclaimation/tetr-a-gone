@@ -37,13 +37,13 @@ void io_init(uint16_t display_rate,  uint8_t blink_period);
  * 
  * @param game The game itself
  */
-void control(Hexagone_t* game);
+void io_control(Hexagone_t* game);
 
 /**
  * @brief Display the current state of the game 
  * 
  * @param game The game itself
  */
-void display(const Hexagone_t* game);
+void io_display(const Hexagone_t* game);
 
 #endif

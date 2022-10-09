@@ -49,7 +49,7 @@ static void subscribe_task(void* data)
  */
 static void display_task(void* data)
 {
-    display(hexagone_from(data));
+    io_display(hexagone_from(data));
 }
 
 /**
@@ -59,7 +59,7 @@ static void display_task(void* data)
  */
 static void control_task(void* data)
 {
-    control(hexagone_from(data));
+    io_control(hexagone_from(data));
 }
 
 /**
