@@ -3,26 +3,51 @@
 //  
 //  Module for handling IR communications
 //
-//  Authored by vno16 and ski102 on 07 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 07 Oct 2022
 //
 
 #include "communication.h"
 
 
+/**
+ * @brief initialize communications
+ */
 void comms_init(void)
 {
     ir_uart_init();
 }
 
+/**
+ * @brief publish a message through infrared
+ * 
+ * @param msg the message being sent
+ */
 void comms_publish(const Message_t msg)
 {
     Packet_t packet = message_encode(msg);
     ir_uart_putc(packet);
 }
 
-void comms_subscribe(Hexagone_t* game)
+/**
+ * @brief Redundantly publish a message through infrared to combat any losses
+ * 
+ * @param msg The message being sent
+ */
+void comms_redundant_publish(const Message_t msg)
 {
-    if (!ir_uart_read_ready_p()) {
+    for (size_t i = 0; i < REDUNDANCY_LIMIT; i++) {
+        comms_publish(msg);
+    }
+}
+
+/**
+ * @brief Subscribe to any incoming messages and apply changes to the game
+ * 
+ * @param game The game states
+ */
+void comms_subscribe(Tetragone_t* game)
+{
+    if (tetragone_ended_p(game) || !ir_uart_read_ready_p()) {
         return;
     }
     
@@ -38,12 +63,12 @@ void comms_subscribe(Hexagone_t* game)
 
         // Perform physics on the platform
         case PLATFORM_FORCE:
-            hexagone_physics(game, msg.payload);
+            tetragone_physics(game, msg.payload);
             break;
 
         // End the game if not ended already
         case GAME_OVER:
-            game->state = hexagone_ended_p(game) ? game->state : WIN;
+            game->state = tetragone_ended_p(game) ? game->state : WIN;
             break;
 
         default:
@@ -53,11 +78,13 @@ void comms_subscribe(Hexagone_t* game)
     // Turn on LED everytime a valid message is received
     led_on();
 
-    // Send an ending message if the player fell or had fallen after receiving a message
-    if (hexagone_fallen_p(game, game->player)) {
-        comms_publish(message_end());
-    }
-    
     // Performs checks
-    hexagone_audit(game);
+    tetragone_audit(game);
+
+    // Send an ending message
+    // Done in excess to avoid game being out of sync
+    // Should cause no other problems since ending is idempotent
+    if (tetragone_ended_p(game)) {
+        comms_redundant_publish(message_end());
+    }
 }

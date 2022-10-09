@@ -3,7 +3,7 @@
 //  
 //  Unit test module
 //
-//  Authored by vno16 and ski102 on 07 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 07 Oct 2022
 //
 
 #include "unittest.h"

@@ -3,13 +3,13 @@
 //  
 //  Unit test program
 //
-//  Authored by vno16 and ski102 on 07 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 07 Oct 2022
 //
 
 #include "unittest.h"
 #include "vector2.h"
 #include "message.h"
-#include "hexagone.h"
+#include "tetragone.h"
 
 // -- Vector2
 
@@ -137,29 +137,29 @@ static Testcode_t message_encode_test(void)
     packet = message_encode(message_end());
 
     // Message encode should not go beyond 147
-    if (packet > 147)
+    if (packet > 210)
         return FAIL;
 
     // Message encode should not alter any typeno
-    if (packet / 49 != GAME_OVER)
+    if (packet / 70 != GAME_OVER)
         return FAIL;
 
     // Message encode should not alter any payload
-    if (packet % 49 != 0)
+    if (packet % 70 != 0)
         return FAIL;
 
     packet = message_encode(message_force_vec2(VEC2_ZERO));
 
-    if (packet > 147)
+    if (packet > 210)
         return FAIL;
     
     // Message encode should not alter any typeno
-    if (packet / 49 != GAME_OVER)
-    if (packet / 49 != PLATFORM_FORCE)
+    if (packet / 70 != GAME_OVER)
+    if (packet / 70 != PLATFORM_FORCE)
         return FAIL;
 
     // Message encode should not alter any payload's x
-    if (packet % 49 / 7 != MAX_X)
+    if (packet % 70 / 7 != MAX_X)
         return FAIL;
     
     // Message encode should not alter any payload's y
@@ -173,8 +173,8 @@ static Testcode_t message_decode_test(void)
 {
     Message_t msg;
 
-    // Message end (3 * 49)
-    msg = message_decode(147);
+    // Message end (3 * 79)
+    msg = message_decode(210);
 
     // Decode you not alter message and is able to parse correctly
     if (msg.typeno != GAME_OVER || !vec2_eq(msg.payload, VEC2_ZERO))
@@ -194,11 +194,11 @@ static Testcode_t message_decode_test(void)
 }
 
 
-// -- Hexagone
+// -- Tetragone
 
-static Testcode_t hexagone_moving_test(void)
+static Testcode_t tetragone_moving_test(void)
 {
-    Hexagone_t game = {
+    Tetragone_t game = {
         .map = {{0}},
         .other = VEC2_ZERO,
         .player = VEC2_ZERO,
@@ -208,7 +208,7 @@ static Testcode_t hexagone_moving_test(void)
     // Stand still should slowly break the platform undyrneath and keep the player position
     game.map[0][0] = RIGID;
     game.player = VEC2_ZERO;
-    hexagone_move(&game, VEC2_ZERO);
+    tetragone_move(&game, VEC2_ZERO);
     if (game.map[0][0] != PARTIAL || !vec2_eq(game.player, VEC2_ZERO) || game.state != GOING)
         return FAIL;
 
@@ -216,14 +216,14 @@ static Testcode_t hexagone_moving_test(void)
     game.map[0][0] = RIGID;
     game.map[1][0] = RIGID;
     game.player = VEC2_ZERO;
-    hexagone_move(&game, VEC2_SOUTH);
+    tetragone_move(&game, VEC2_SOUTH);
     if (game.map[0][0] != PARTIAL || !vec2_eq(game.player, vec2(0, 1)) || game.state != GOING)
         return FAIL;
 
     // Moving to an invalid positon should have the same effect as standing still
     game.map[0][0] = RIGID;
     game.player = VEC2_ZERO;
-    hexagone_move(&game, VEC2_NORTH);
+    tetragone_move(&game, VEC2_NORTH);
     if (game.map[0][0] != PARTIAL || !vec2_eq(game.player, VEC2_ZERO) || game.state != GOING)
         return FAIL;
 
@@ -231,7 +231,7 @@ static Testcode_t hexagone_moving_test(void)
     game.map[0][0] = RIGID;
     game.map[1][0] = BROKEN;
     game.player = VEC2_ZERO;
-    hexagone_move(&game, VEC2_SOUTH);
+    tetragone_move(&game, VEC2_SOUTH);
     if (!vec2_eq(game.player, vec2(0, 1)) || game.state != LOSE)
         return FAIL;
 
@@ -239,9 +239,9 @@ static Testcode_t hexagone_moving_test(void)
 }
 
 
-static Testcode_t hexagone_physics_test(void)
+static Testcode_t tetragone_physics_test(void)
 {
-    Hexagone_t game = {
+    Tetragone_t game = {
         .map = {{0}},
         .other = VEC2_ZERO,
         .player = VEC2_ZERO,
@@ -250,20 +250,20 @@ static Testcode_t hexagone_physics_test(void)
 
     // Platform should slowly break
     game.map[0][0] = RIGID;
-    hexagone_physics(&game, VEC2_ZERO);
+    tetragone_physics(&game, VEC2_ZERO);
     if (game.map[0][0] != PARTIAL)
         return FAIL;
 
-    hexagone_physics(&game, VEC2_ZERO);
+    tetragone_physics(&game, VEC2_ZERO);
     if (game.map[0][0] != ALMOST)
         return FAIL;
     
-    hexagone_physics(&game, VEC2_ZERO);
+    tetragone_physics(&game, VEC2_ZERO);
     if (game.map[0][0] != BROKEN)
         return FAIL;
 
     // Should not go beyond BROKEN = 0
-    hexagone_physics(&game, VEC2_ZERO);
+    tetragone_physics(&game, VEC2_ZERO);
     if (game.map[0][0] != BROKEN)
         return FAIL;
 
@@ -271,9 +271,9 @@ static Testcode_t hexagone_physics_test(void)
 }
 
 
-static Testcode_t hexagone_audit_test(void)
+static Testcode_t tetragone_audit_test(void)
 {
-    Hexagone_t game = {
+    Tetragone_t game = {
         .map = {{0}},
         .other = VEC2_ZERO,
         .player = VEC2_ZERO,
@@ -283,23 +283,23 @@ static Testcode_t hexagone_audit_test(void)
     // Audit should change game state properly
     game.map[0][0] = BROKEN;
     game.player = VEC2_ZERO;
-    hexagone_audit(&game);
+    tetragone_audit(&game);
     if (game.state != LOSE)
         return FAIL;
 
     game.state = GOING;
     game.map[0][0] = RIGID;
     game.player = VEC2_ZERO;
-    hexagone_audit(&game);
+    tetragone_audit(&game);
     if (game.state != GOING)
         return FAIL;
 
     return OK;   
 }
 
-static Testcode_t hexagone_predicate_test(void)
+static Testcode_t tetragone_predicate_test(void)
 {
-    Hexagone_t game = {
+    Tetragone_t game = {
         .map = {{0}},
         .other = VEC2_ZERO,
         .player = VEC2_ZERO,
@@ -307,31 +307,31 @@ static Testcode_t hexagone_predicate_test(void)
     };  
 
     game.map[0][0] = RIGID;
-    if (hexagone_fallen_p(&game, VEC2_ZERO))
+    if (tetragone_fallen_p(&game, VEC2_ZERO))
         return FAIL;
 
     game.map[0][0] = PARTIAL;
-    if (hexagone_fallen_p(&game, VEC2_ZERO))
+    if (tetragone_fallen_p(&game, VEC2_ZERO))
         return FAIL;
 
     game.map[0][0] = ALMOST;
-    if (hexagone_fallen_p(&game, VEC2_ZERO))
+    if (tetragone_fallen_p(&game, VEC2_ZERO))
         return FAIL;
 
     game.map[0][0] = BROKEN;
-    if (!hexagone_fallen_p(&game, VEC2_ZERO))
+    if (!tetragone_fallen_p(&game, VEC2_ZERO))
         return FAIL;
 
     game.state = GOING;
-    if (hexagone_ended_p(&game))
+    if (tetragone_ended_p(&game))
         return FAIL;
 
     game.state = LOSE;
-    if (!hexagone_ended_p(&game))
+    if (!tetragone_ended_p(&game))
         return FAIL;
 
     game.state = WIN;
-    if (!hexagone_ended_p(&game))
+    if (!tetragone_ended_p(&game))
         return FAIL;
     
     return OK;
@@ -348,10 +348,10 @@ int main(void)
         unit("Message Types test", &message_types_test),
         unit("Message Encoding test", &message_encode_test),
         unit("Message Decoding test", &message_decode_test),
-        unit("Hexagone Moving test", &hexagone_moving_test),
-        unit("Hexagone Physics test", &hexagone_physics_test),
-        unit("Hexagone Audit test", &hexagone_audit_test),
-        unit("Hexagone Predicate test", &hexagone_predicate_test),
+        unit("Tetragone Moving test", &tetragone_moving_test),
+        unit("Tetragone Physics test", &tetragone_physics_test),
+        unit("Tetragone Audit test", &tetragone_audit_test),
+        unit("Tetragone Predicate test", &tetragone_predicate_test),
     };
     test_all(units, sizeof(units) / sizeof(Unit_t));
     return 0;

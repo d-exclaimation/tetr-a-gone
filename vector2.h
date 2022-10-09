@@ -3,7 +3,7 @@
 //  
 //  Module for anything related to a point in a 2D plane / 2D vector
 //
-//  Authored by vno16 and ski102 on 30 Sep 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 30 Sep 2022
 //
 
 #ifndef VECTOR2_H
@@ -26,7 +26,7 @@
 /**
  * @brief Maximum x position
  */
-#define MAX_X 4
+#define MAX_X 9
 
 /**
  * @brief Maximum y position
@@ -97,7 +97,6 @@ bool vec2_eq(const Vector2_t lhs, const Vector2_t rhs);
  * @returns A resulting vector
  */
 Vector2_t vec2_add(const Vector2_t lhs, const Vector2_t rhs);
-
 
 /**
  * @brief Invert the vector by the (y = 1 - x) line

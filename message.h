@@ -1,9 +1,9 @@
 //
 //  message.h
 //  
-//  Module for handling communication message encoding and decoding (using base 7)
+//  Module for handling communication message encoding and decoding
 //
-//  Authored by vno16 and ski102 on 04 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 04 Oct 2022
 //
 
 #ifndef MESSAGE_H
@@ -14,12 +14,12 @@
 /**
  * @brief The distance multiplied for the type when encoded
  */
-#define TYPE_DISTANCE 49
+#define TYPE_DISTANCE ((MAX_X + 1) * (MAX_Y + 1))
 
 /**
  * @brief The distance multiplied for the vector payload column when encoded
  */
-#define COL_DISTANCE 7
+#define COL_DISTANCE (MAX_Y + 1)
 
 /**
  * @brief The distance multiplied for the vector payload row when encoded
@@ -91,17 +91,17 @@ Message_t message_force_vec2(const Vector2_t location);
 
 
 /**
- * @brief Encode outgoing message into a 8 bit integer packet
+ * @brief Encode outgoing message into a 8 bit integer packet.
  * 
- * @internal
- * Encoding using base 7 with 3 fields:
- * - 2: Type number (valid range 0 - 3)
- * - 1: Vector payload column (valid range 0 - 4)
- * - 0: Vector payload row (valid range 0 - 6)
- * - Valid values: 0 - 146, 200 - 246, and 300
+ * @internal 
+ * p(t, x, y) = (t * 70) + (x * 7) + y
+ * 
+ * Outputs:
+ *  - 70...210
  * @endinternal
  * 
  * @param msg Message to be encoded
+ * 
  * 
  * @returns 8 bit unsigned integer for the message
  */
@@ -110,15 +110,16 @@ Packet_t message_encode(const Message_t msg);
 /**
  * @brief Decode incoming packet
  * 
- * @param packet 8 bit integer packet
+ * @internal 
+ * t(p) = p / 70
+ * x(p) = p % 70 / 7
+ * y(p) = p % 7
  * 
- * @internal
- * Encoding using base 7 with 3 fields:
- * - 2: Type number (valid range 0 - 3)
- * - 1: Vector payload column (valid range 0 - 4)
- * - 0: Vector payload row (valid range 0 - 6)
- * - Valid values: 0 - 146, 200 - 246, and 300
+ * Inputs:
+ *  - 70...210
  * @endinternal
+ * 
+ * @param packet 8 bit integer packet
  * 
  * @returns Possible decoded message from the packet, otherwise an invalid message is returned
  */

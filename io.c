@@ -1,8 +1,9 @@
 //
 //  io.c
-//  hex-a-gone
+//  
+//  Module for handling input (control) and output (display) for the game 
 //
-//  Created by vno16 on 16:05.
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 09 Oct 2022
 //
 
 #include "io.h"
@@ -40,18 +41,17 @@ static const uint8_t options[] = {NAVSWITCH_NORTH, NAVSWITCH_SOUTH, NAVSWITCH_EA
 /**
  * All directions count
  */
-
 static const size_t num_directions = 4;
 
 /**
  * Previous column that has been turned on
  */
-static int8_t prev_col = 0;
+static int8_t prev_col = START_X;
 
 /**
  * Current column that has not been turned on
  */
-static int8_t curr_col = 0;
+static int8_t curr_col = START_X;
 
 /**
  * Display blinking rate
@@ -63,13 +63,19 @@ static int8_t rate = 0;
  */
 static int8_t blinked = 0;
 
-void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
+/**
+ * @brief Initialize navswitch and LED matrix
+ * 
+ * @param blink_period The amount of delay between each blink (1/rate)
+ * @param display_rate The rate which the display will be running at
+ */
+void io_init(uint16_t display_rate, uint8_t blink_period)
 {
-    rate = blink_rate;
+    rate = blink_period;
 
     ledmat_init();
     navswitch_init();
-    tinygl_init(pacer_rate);
+    tinygl_init(display_rate);
     tinygl_font_set(&font5x5_1);
     tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
 }
@@ -81,17 +87,22 @@ void io_init(pacer_rate_t pacer_rate, uint8_t blink_rate)
  * @param game The game states to be modified
  * @param dir The direction the player is moving
  */
-static void control_movement(Hexagone_t* game, const Vector2_t dir)
+static void io_movement(Tetragone_t* game, const Vector2_t dir)
 {
     comms_publish(message_force_vec2(game->player));
-    hexagone_move(game, dir);
+    tetragone_move(game, dir);
     comms_publish(message_player_vec2(game->player));
 }
 
-void control(Hexagone_t* game)
+/**
+ * @brief Retreive control input and apply to the game
+ * 
+ * @param game The game itself
+ */
+void io_control(Tetragone_t* game)
 {
     // If the game has ended, no controls should be read
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         return;
     }
 
@@ -101,13 +112,13 @@ void control(Hexagone_t* game)
     navswitch_update();
     for (size_t move = 0; move < num_directions; move++) {
         if (navswitch_push_event_p(options[move])) {
-            control_movement(game, directions[move]);
+            io_movement(game, directions[move]);
             break;
         }
     }
 
     // Close the communications as the game has ended
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         comms_publish(message_end());
     }
 }
@@ -118,7 +129,7 @@ void control(Hexagone_t* game)
  *
  * @param game The game states to be displayed
  */
-static void display_end_screen(const Hexagone_t* game)
+static void io_end_screen(const Tetragone_t* game)
 {
     tinygl_text(game->state == WIN ? "W" : "L");
     tinygl_update();
@@ -129,10 +140,10 @@ static void display_end_screen(const Hexagone_t* game)
  *
  * @param game The game states to be displayed
  */
-static void display_game_screen(const Hexagone_t* game)
+static void io_game_screen(const Tetragone_t* game)
 {
     // Turn off any previusly turned on columns
-    pio_output_high(cols[prev_col]);
+    pio_output_high(cols[prev_col - START_X]);
 
     for (int8_t row = 0; row <= MAX_Y; row++) {
 
@@ -156,16 +167,21 @@ static void display_game_screen(const Hexagone_t* game)
     }
 
     // Turn on current column
-    pio_output_low(cols[curr_col]);
+    pio_output_low(cols[curr_col - START_X]);
 }
 
-void display(const Hexagone_t* game)
+/**
+ * @brief Display the current state of the game 
+ * 
+ * @param game The game itself
+ */
+void io_display(const Tetragone_t* game)
 {
     // Show end screen if the game has ended instead of the game states
-    if (hexagone_ended_p(game)) {
-        display_end_screen(game);
+    if (tetragone_ended_p(game)) {
+        io_end_screen(game);
     } else {
-        display_game_screen(game);
+        io_game_screen(game);
     }
 
     // Set previous column and wait for next iteration from the pacer
@@ -174,7 +190,7 @@ void display(const Hexagone_t* game)
 
     // Start over
     if (curr_col > MAX_X) {
-        curr_col = 0;
+        curr_col = START_X;
         blinked = (blinked + 1) % rate;
     }
 }

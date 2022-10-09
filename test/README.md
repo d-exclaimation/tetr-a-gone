@@ -1,4 +1,4 @@
-# Hexagone (Test)
+# Tetragone (Test)
 
 Testing directory for the program
 > **PLEASE DON'T MARK THIS DIRECTORY :), THESE ARE JUST FOR TESTING PURPOSES**
