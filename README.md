@@ -92,45 +92,38 @@ Start the game
 make program
 ```
 
+## Project Overview
+
+```mermaid
+graph TD
+    tetragone --> io
+    communication --> io
+    vector2 --> tetragone
+    vector2 --> message
+    tetragone --> communication
+    message --> communication
+    led --> communication
+    tetragone --> main
+    io --> main
+    communication --> main
+    led --> main
+```
+
+- `vector2`: Module for anything to do with points on a 2D plane
+- `tetragone`: Module for game states and game logic functions
+- `message`: Module for message format, encoding, and decoding
+- `communication`: Module for handling `message` communications using `ir_uart`
+- `led`: Module for blue LED (replacing the drivers' version)
+- `io`: Module for handling inputs (controls) and outputs (display) of the game state
 
 ## Targets
 
-#### Compile the project
-
-```bash
-  make
-```
-
-#### Clean the binary outputs
-
-```bash
-  make clean
-```
-
-#### Run the test code
-
-```bash
-  make test
-```
-
-#### Compile the project from scratch (clean compile)
-
-```bash
-  make fresh
-```
-
-#### Run the project on the UC FunKit 4
-
-```bash
-  make program
-```
-
-#### Run a cleaned build of the project on the UC FunKit 4
-
-```bash
-  make prod
-```
-
+- `make`: Compile the project
+- `make clean`: Clean the binary outputs
+- `make test`: Run the test code
+- `make fresh`: Compile the project from scratch (clean compile)
+- `make program`: Run the project on the UC FunKit 4
+- `make prod`: Clean any previous binaries and run the project on the UC FunKit 4
 
 ## Authors
 
