@@ -3,11 +3,11 @@
 //  
 //  Main entry point of the application
 //
-//  Authored by vno16 and ski102 on 30 Sep 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 30 Sep 2022
 //
 
 #include "system.h"
-#include "hexagone.h"
+#include "tetragone.h"
 #include "led.h"
 #include "communication.h"
 #include "io.h"
@@ -39,7 +39,7 @@ static void setup(void)
  */
 static void subscribe_task(void* data)
 {
-    comms_subscribe(hexagone_from(data));
+    comms_subscribe(tetragone_from(data));
 }
 
 /**
@@ -49,7 +49,7 @@ static void subscribe_task(void* data)
  */
 static void display_task(void* data)
 {
-    io_display(hexagone_from(data));
+    io_display(tetragone_from(data));
 }
 
 /**
@@ -59,7 +59,7 @@ static void display_task(void* data)
  */
 static void control_task(void* data)
 {
-    io_control(hexagone_from(data));
+    io_control(tetragone_from(data));
 }
 
 /**
@@ -74,7 +74,7 @@ static void led_task(__unused__ void* data)
 
 int main(void)
 {
-    Hexagone_t game = {
+    Tetragone_t game = {
         .player = vec2_inv(VEC2_ZERO),
         .other = VEC2_ZERO,
         .state = GOING,

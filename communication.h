@@ -3,13 +3,13 @@
 //  
 //  Module for handling IR communications
 //
-//  Authored by vno16 and ski102 on 07 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 07 Oct 2022
 //
 
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
 
-#include "hexagone.h"
+#include "tetragone.h"
 #include "message.h"
 #include "ir_uart.h"
 #include "led.h"
@@ -43,6 +43,6 @@ void comms_redundant_publish(const Message_t msg);
  * 
  * @param game The game states
  */
-void comms_subscribe(Hexagone_t* game);
+void comms_subscribe(Tetragone_t* game);
 
 #endif

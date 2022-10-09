@@ -3,7 +3,7 @@
 //  
 //  Module for handling IR communications
 //
-//  Authored by vno16 and ski102 on 07 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 07 Oct 2022
 //
 
 #include "communication.h"
@@ -45,9 +45,9 @@ void comms_redundant_publish(const Message_t msg)
  * 
  * @param game The game states
  */
-void comms_subscribe(Hexagone_t* game)
+void comms_subscribe(Tetragone_t* game)
 {
-    if (hexagone_ended_p(game) || !ir_uart_read_ready_p()) {
+    if (tetragone_ended_p(game) || !ir_uart_read_ready_p()) {
         return;
     }
     
@@ -63,12 +63,12 @@ void comms_subscribe(Hexagone_t* game)
 
         // Perform physics on the platform
         case PLATFORM_FORCE:
-            hexagone_physics(game, msg.payload);
+            tetragone_physics(game, msg.payload);
             break;
 
         // End the game if not ended already
         case GAME_OVER:
-            game->state = hexagone_ended_p(game) ? game->state : WIN;
+            game->state = tetragone_ended_p(game) ? game->state : WIN;
             break;
 
         default:
@@ -79,12 +79,12 @@ void comms_subscribe(Hexagone_t* game)
     led_on();
 
     // Performs checks
-    hexagone_audit(game);
+    tetragone_audit(game);
 
     // Send an ending message
     // Done in excess to avoid game being out of sync
     // Should cause no other problems since ending is idempotent
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         comms_redundant_publish(message_end());
     }
 }

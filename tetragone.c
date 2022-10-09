@@ -1,12 +1,12 @@
 //
-//  hexagone.c
+//  tetragone.c
 //  
 //  Main module for the game consisting of the state definitions and all game related functions
 //
-//  Authored by vno16 and ski102 on 30 Sep 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 30 Sep 2022
 //
 
-#include "hexagone.h"
+#include "tetragone.h"
 
 /**
  * @brief Cast an untyped memory address as the game states
@@ -16,9 +16,9 @@
  * @param data An untyped memory address
  * @returns A typed memory addres
  */
-Hexagone_t* hexagone_from(void* data)
+Tetragone_t* tetragone_from(void* data)
 {
-    return (Hexagone_t*) data;
+    return (Tetragone_t*) data;
 }
 
 /**
@@ -27,16 +27,16 @@ Hexagone_t* hexagone_from(void* data)
  * @param game The game states
  * @param dir The direction where the player is moving towards
  */
-void hexagone_move(Hexagone_t* game, const Vector2_t dir)
+void tetragone_move(Tetragone_t* game, const Vector2_t dir)
 {
     // Apply physics on the previous location
-    hexagone_physics(game, game->player);
+    tetragone_physics(game, game->player);
 
     // Move player
     game->player = vec2_clamp(vec2_add(game->player, dir));
 
     // Perform checks
-    hexagone_audit(game);
+    tetragone_audit(game);
 }
 
 /**
@@ -45,10 +45,10 @@ void hexagone_move(Hexagone_t* game, const Vector2_t dir)
  * @param game The game states
  * @param loc The location in the map to apply physics to
  */
-void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
+void tetragone_physics(Tetragone_t* game, const Vector2_t loc)
 {   
     // Don't apply physics to an already broken platform
-    if (hexagone_fallen_p(game, loc)) {
+    if (tetragone_fallen_p(game, loc)) {
         return;
     }
 
@@ -60,15 +60,15 @@ void hexagone_physics(Hexagone_t* game, const Vector2_t loc)
  *
  * @param game The game states 
  */
-void hexagone_audit(Hexagone_t* game)
+void tetragone_audit(Tetragone_t* game)
 {
     // If game had already ended prior, no action is performed
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         return;
     }
 
     // If the player has not fallen yet, no action is performed
-    if (!hexagone_fallen_p(game, game->player)) {
+    if (!tetragone_fallen_p(game, game->player) && !tetragone_trapped_p(game, game->player)) {
         return;
     }
 
@@ -83,9 +83,29 @@ void hexagone_audit(Hexagone_t* game)
  * 
  * @returns True if the location is on top a broken platform
  */
-bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc)
+bool tetragone_fallen_p(const Tetragone_t* game, const Vector2_t loc)
 {
     return game->map[loc.y][loc.x] == BROKEN;
+}
+
+/**
+ * @brief Check if the current location is standing on top a broken platform
+ * 
+ * @param game The game states
+ * @param loc The location in the map to be checked
+ * 
+ * @returns True if the location is on top a broken platform
+ */
+bool tetragone_trapped_p(const Tetragone_t* game, const Vector2_t loc)
+{   
+    const Vector2_t all_dirs[] = {VEC2_NORTH, VEC2_SOUTH, VEC2_EAST, VEC2_WEST};
+    for (size_t i = 0; i < (sizeof(all_dirs) / sizeof(all_dirs[0])); i++) {
+        const Vector2_t side = vec2_add(loc, all_dirs[i]);
+        if (!tetragone_fallen_p(game, side)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
@@ -95,7 +115,7 @@ bool hexagone_fallen_p(const Hexagone_t* game, const Vector2_t loc)
  * 
  * @returns True if the player either had lost or won
  */
-bool hexagone_ended_p(const Hexagone_t* game)
+bool tetragone_ended_p(const Tetragone_t* game)
 {
     // Win or Lose are over 10 enums
     return game->state >= WIN;

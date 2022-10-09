@@ -3,7 +3,7 @@
 //  
 //  Module for anything related to a point in a 2D plane / 2D vector
 //
-//  Authored by vno16 and ski102 on 30 Sep 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 30 Sep 2022
 //
 
 #include "vector2.h"

@@ -3,7 +3,7 @@
 //  
 //  Module for controlling the blue led because the existing driver one is confusing :)
 //
-//  Authored by vno16 and ski102 on 30 Sep 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 30 Sep 2022
 //
 
 #ifndef LED_H

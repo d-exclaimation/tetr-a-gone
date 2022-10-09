@@ -1,16 +1,15 @@
 //
 //  io.h
-//  hex-a-gone
+//  
+//  Module for handling input (control) and output (display) for the game 
 //
-//  Created by vno16 on 16:05.
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 09 Oct 2022
 //
-
-/** TODO: Split display and controls into their own module */
 
 #ifndef IO_H
 #define IO_H
 
-#include "hexagone.h"
+#include "tetragone.h"
 #include "system.h"
 #include "pio.h"
 #include "ledmat.h"
@@ -37,13 +36,13 @@ void io_init(uint16_t display_rate,  uint8_t blink_period);
  * 
  * @param game The game itself
  */
-void io_control(Hexagone_t* game);
+void io_control(Tetragone_t* game);
 
 /**
  * @brief Display the current state of the game 
  * 
  * @param game The game itself
  */
-void io_display(const Hexagone_t* game);
+void io_display(const Tetragone_t* game);
 
 #endif

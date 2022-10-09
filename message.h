@@ -3,7 +3,7 @@
 //  
 //  Module for handling communication message encoding and decoding
 //
-//  Authored by vno16 and ski102 on 04 Oct 2022
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 04 Oct 2022
 //
 
 #ifndef MESSAGE_H

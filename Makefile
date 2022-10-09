@@ -3,7 +3,7 @@
 #  
 #  Makefile for the application
 #
-#  Authored by vno16 and ski102 on 30 Sep 2022
+#  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 30 Sep 2022
 #
 
 # Definitions
@@ -18,10 +18,10 @@ all: main.out
 
 
 # Compile
-main.o: main.c ./vector2.h ./hexagone.h ./led.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./communication.h ./io.h ../../utils/task.h
+main.o: main.c ./vector2.h ./tetragone.h ./led.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./communication.h ./io.h ../../utils/task.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-hexagone.o: hexagone.c hexagone.h ./vector2.h
+tetragone.o: tetragone.c tetragone.h ./vector2.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 vector2.o: vector2.c vector2.h
@@ -51,10 +51,10 @@ system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 message.o: ./message.c ./message.h ./vector2.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-communication.o: ./communication.c ./communication.h ./hexagone.h ./message.h ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./led.h
+communication.o: ./communication.c ./communication.h ./tetragone.h ./message.h ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ./led.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-io.o: ./io.c ./io.h ./hexagone.h ../../drivers/navswitch.h ../../drivers/ledmat.h ../../drivers/avr/system.h ../../drivers/avr/pio.h ./communication.h ./message.h ../../utils/tinygl.h ../../fonts/font5x5_1.h
+io.o: ./io.c ./io.h ./tetragone.h ../../drivers/navswitch.h ../../drivers/ledmat.h ../../drivers/avr/system.h ../../drivers/avr/pio.h ./communication.h ./message.h ../../utils/tinygl.h ../../fonts/font5x5_1.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 navswitch.o: ../../drivers/navswitch.c ../../drivers/navswitch.h ../../drivers/avr/delay.h ../../drivers/avr/pio.h ../../drivers/avr/system.h
@@ -80,7 +80,7 @@ task.o: ../../utils/task.c ../../drivers/avr/system.h ../../drivers/avr/timer.h 
 
 
 # Link
-main.out: main.o vector2.o hexagone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o timer.o tinygl.o font.o display.o task.o
+main.out: main.o vector2.o tetragone.o led.o pio.o system.o ir_uart.o timer0.o usart1.o prescale.o message.o communication.o io.o navswitch.o ledmat.o timer.o tinygl.o font.o display.o task.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

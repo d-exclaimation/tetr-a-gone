@@ -1,8 +1,9 @@
 //
 //  io.c
-//  hex-a-gone
+//  
+//  Module for handling input (control) and output (display) for the game 
 //
-//  Created by vno16 on 16:05.
+//  Authored by Vincent ~ (vno16) and Natalie Kim (ski102) on 09 Oct 2022
 //
 
 #include "io.h"
@@ -86,10 +87,10 @@ void io_init(uint16_t display_rate, uint8_t blink_period)
  * @param game The game states to be modified
  * @param dir The direction the player is moving
  */
-static void io_movement(Hexagone_t* game, const Vector2_t dir)
+static void io_movement(Tetragone_t* game, const Vector2_t dir)
 {
     comms_publish(message_force_vec2(game->player));
-    hexagone_move(game, dir);
+    tetragone_move(game, dir);
     comms_publish(message_player_vec2(game->player));
 }
 
@@ -98,10 +99,10 @@ static void io_movement(Hexagone_t* game, const Vector2_t dir)
  * 
  * @param game The game itself
  */
-void io_control(Hexagone_t* game)
+void io_control(Tetragone_t* game)
 {
     // If the game has ended, no controls should be read
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         return;
     }
 
@@ -117,7 +118,7 @@ void io_control(Hexagone_t* game)
     }
 
     // Close the communications as the game has ended
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         comms_publish(message_end());
     }
 }
@@ -128,7 +129,7 @@ void io_control(Hexagone_t* game)
  *
  * @param game The game states to be displayed
  */
-static void io_end_screen(const Hexagone_t* game)
+static void io_end_screen(const Tetragone_t* game)
 {
     tinygl_text(game->state == WIN ? "W" : "L");
     tinygl_update();
@@ -139,7 +140,7 @@ static void io_end_screen(const Hexagone_t* game)
  *
  * @param game The game states to be displayed
  */
-static void io_game_screen(const Hexagone_t* game)
+static void io_game_screen(const Tetragone_t* game)
 {
     // Turn off any previusly turned on columns
     pio_output_high(cols[prev_col - START_X]);
@@ -174,10 +175,10 @@ static void io_game_screen(const Hexagone_t* game)
  * 
  * @param game The game itself
  */
-void io_display(const Hexagone_t* game)
+void io_display(const Tetragone_t* game)
 {
     // Show end screen if the game has ended instead of the game states
-    if (hexagone_ended_p(game)) {
+    if (tetragone_ended_p(game)) {
         io_end_screen(game);
     } else {
         io_game_screen(game);
