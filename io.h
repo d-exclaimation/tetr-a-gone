@@ -20,6 +20,8 @@
 #include "pacer.h"
 #include "../fonts/font5x5_1.h"
 
+#define START_X ((MAX_X / 2) + 1)
+
 /**
  * @brief Initialize navswitch and LED matrix
  * 

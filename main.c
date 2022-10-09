@@ -33,17 +33,17 @@ int main(void)
 {
     Hexagone_t game = {
         .player = vec2_inv(VEC2_ZERO),
-        .other = vec2(-1, -1),
+        .other = VEC2_ZERO,
         .state = GOING,
         /** TODO: I don't know how to fill in a 2D array with the same values :( */
         .map = {
-            {RIGID, RIGID, RIGID, RIGID, RIGID},
-            {RIGID, RIGID, RIGID, RIGID, RIGID},
-            {RIGID, RIGID, RIGID, RIGID, RIGID},
-            {RIGID, RIGID, RIGID, RIGID, RIGID},
-            {RIGID, RIGID, RIGID, RIGID, RIGID},
-            {RIGID, RIGID, RIGID, RIGID, RIGID},
-            {RIGID, RIGID, RIGID, RIGID, RIGID}
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
+            {RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID, RIGID},
         }
     };
 
@@ -51,7 +51,7 @@ int main(void)
 
     while (1) {
 
-        pacer_wait();
+        pacer_wait(); 
 
         led_off();
 

@@ -46,12 +46,12 @@ static const size_t num_directions = 4;
 /**
  * Previous column that has been turned on
  */
-static int8_t prev_col = 0;
+static int8_t prev_col = START_X;
 
 /**
  * Current column that has not been turned on
  */
-static int8_t curr_col = 0;
+static int8_t curr_col = START_X;
 
 /**
  * Display blinking rate
@@ -132,7 +132,7 @@ static void display_end_screen(const Hexagone_t* game)
 static void display_game_screen(const Hexagone_t* game)
 {
     // Turn off any previusly turned on columns
-    pio_output_high(cols[prev_col]);
+    pio_output_high(cols[prev_col - START_X]);
 
     for (int8_t row = 0; row <= MAX_Y; row++) {
 
@@ -156,7 +156,7 @@ static void display_game_screen(const Hexagone_t* game)
     }
 
     // Turn on current column
-    pio_output_low(cols[curr_col]);
+    pio_output_low(cols[curr_col - START_X]);
 }
 
 void display(const Hexagone_t* game)
@@ -174,7 +174,7 @@ void display(const Hexagone_t* game)
 
     // Start over
     if (curr_col > MAX_X) {
-        curr_col = 0;
+        curr_col = START_X;
         blinked = (blinked + 1) % rate;
     }
 }

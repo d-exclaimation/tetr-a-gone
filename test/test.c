@@ -137,29 +137,29 @@ static Testcode_t message_encode_test(void)
     packet = message_encode(message_end());
 
     // Message encode should not go beyond 147
-    if (packet > 147)
+    if (packet > 210)
         return FAIL;
 
     // Message encode should not alter any typeno
-    if (packet / 49 != GAME_OVER)
+    if (packet / 70 != GAME_OVER)
         return FAIL;
 
     // Message encode should not alter any payload
-    if (packet % 49 != 0)
+    if (packet % 70 != 0)
         return FAIL;
 
     packet = message_encode(message_force_vec2(VEC2_ZERO));
 
-    if (packet > 147)
+    if (packet > 210)
         return FAIL;
     
     // Message encode should not alter any typeno
-    if (packet / 49 != GAME_OVER)
-    if (packet / 49 != PLATFORM_FORCE)
+    if (packet / 70 != GAME_OVER)
+    if (packet / 70 != PLATFORM_FORCE)
         return FAIL;
 
     // Message encode should not alter any payload's x
-    if (packet % 49 / 7 != MAX_X)
+    if (packet % 70 / 7 != MAX_X)
         return FAIL;
     
     // Message encode should not alter any payload's y
@@ -173,8 +173,8 @@ static Testcode_t message_decode_test(void)
 {
     Message_t msg;
 
-    // Message end (3 * 49)
-    msg = message_decode(147);
+    // Message end (3 * 79)
+    msg = message_decode(210);
 
     // Decode you not alter message and is able to parse correctly
     if (msg.typeno != GAME_OVER || !vec2_eq(msg.payload, VEC2_ZERO))

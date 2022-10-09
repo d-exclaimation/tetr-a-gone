@@ -22,7 +22,7 @@ void comms_publish(const Message_t msg)
 
 void comms_subscribe(Hexagone_t* game)
 {
-    if (!ir_uart_read_ready_p()) {
+    if (hexagone_ended_p(game) || !ir_uart_read_ready_p()) {
         return;
     }
     
@@ -53,11 +53,13 @@ void comms_subscribe(Hexagone_t* game)
     // Turn on LED everytime a valid message is received
     led_on();
 
-    // Send an ending message if the player fell or had fallen after receiving a message
-    if (hexagone_fallen_p(game, game->player)) {
-        comms_publish(message_end());
-    }
-    
     // Performs checks
     hexagone_audit(game);
+
+    // Send an ending message if the player fell or had fallen after receiving a message
+    if (hexagone_ended_p(game)) {
+        for (size_t i = 0; i < 5; i++) {
+            comms_publish(message_end());
+        }
+    }
 }

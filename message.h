@@ -14,12 +14,12 @@
 /**
  * @brief The distance multiplied for the type when encoded
  */
-#define TYPE_DISTANCE 49
+#define TYPE_DISTANCE ((MAX_X + 1) * (MAX_Y + 1))
 
 /**
  * @brief The distance multiplied for the vector payload column when encoded
  */
-#define COL_DISTANCE 7
+#define COL_DISTANCE (MAX_Y + 1)
 
 /**
  * @brief The distance multiplied for the vector payload row when encoded

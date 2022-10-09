@@ -26,7 +26,7 @@
 /**
  * @brief Maximum x position
  */
-#define MAX_X 4
+#define MAX_X 9
 
 /**
  * @brief Maximum y position
