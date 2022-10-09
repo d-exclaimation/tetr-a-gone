@@ -101,12 +101,12 @@ void tetragone_audit(Tetragone_t* game);
 bool tetragone_fallen_p(const Tetragone_t* game, const Vector2_t loc);
 
 /**
- * @brief Check if the current location is standing on top a broken platform
+ * @brief Check if the current location is surrounded by holes
  * 
  * @param game The game states
  * @param loc The location in the map to be checked
  * 
- * @returns True if the location is on top a broken platform
+ * @returns True if the location is surrounded by holes from all possible directions
  */
 bool tetragone_trapped_p(const Tetragone_t* game, const Vector2_t loc);
 

@@ -4,6 +4,9 @@
 
 By [Vincent ~ (vno16)](vno16@uclive.ac.nz) and [Natalie Kim (ski102)](ski102@uclive.ac.nz) (ENCE260 2022)
 
+
+[[_TOC_]]
+
 ## Guide
 
 ### Brief
@@ -24,7 +27,10 @@ Be the last player standing (last to fall) or make sure the other player falls b
 
 Setup the funkits to have the IR receivers and transmitters facing each other.
 
-![Facing each other](https://vincent-shared-files.netlify.app/images/funkits.jpg)
+
+<p align="center">
+<img width="350" src="https://vincent-shared-files.netlify.app/images/funkits.jpg">
+</p>
 
 <small>Make sure the controls are either on the right or bottom side of the funkit from each player's point of view</small>
 
@@ -51,39 +57,39 @@ If any player falls (a player move into a hole (**constant light**) or is sorrou
 
 ### Controls
 
-- `NAVSWITCH_*`
-    - `NAVSWITCH_NORTH`: Move your player north (from your board point of view)
-    - `NAVSWITCH_SOUTH`: Move your player south (from your board point of view)
-    - `NAVSWITCH_EAST`: Move your player east (from your board point of view)
-    - `NAVSWITCH_WEST`: Move your player west (from your board point of view)
+- `NAVSWITCH_NORTH`: Move your player north (from your board point of view)
+- `NAVSWITCH_SOUTH`: Move your player south (from your board point of view)
+- `NAVSWITCH_EAST`: Move your player east (from your board point of view)
+- `NAVSWITCH_WEST`: Move your player west (from your board point of view)
+
 ## Running on the FunKit
 
 Clone the API and drivers code for the UC FunKit 4
 
 ```bash
-  git clone https://eng-git.canterbury.ac.nz/rmc84/ence260-ucfk4.git
+git clone https://eng-git.canterbury.ac.nz/rmc84/ence260-ucfk4.git
 ```
 
 Go to the assignment folder
 
 ```bash
-  cd ence260-ucfk4/assignment
+cd ence260-ucfk4/assignment
 ```
 
 Clone the project
 
 ```bash
-  git clone https://eng-git.canterbury.ac.nz/ence260-2022/group_207.git
+git clone https://eng-git.canterbury.ac.nz/ence260-2022/group_207.git
 ```
 
 Plug the UC FunKit 4 board through USB
 
-![Plug the USB cable](https://support.usa.canon.com/library/attachments/ServiceWareImages/LDImages/SolutionAnswer/iP90/USBToPC.gif)
+<img width="200" src="https://support.usa.canon.com/library/attachments/ServiceWareImages/LDImages/SolutionAnswer/iP90/USBToPC.gif">
 
 Start the game
 
 ```bash
-  make program
+make program
 ```
 
 
