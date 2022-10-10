@@ -1,7 +1,13 @@
-# Tetragone (Test)
+# Tetr-A-Gone (Test)
 
 Testing directory for the program
-> **PLEASE DON'T MARK THIS DIRECTORY :), THESE ARE JUST FOR TESTING PURPOSES**
+
+> **Testing only**
+>
+> Code written here (under `./test`) does not follow any style guidelines used by the rest of the project
+
+
+[[_TOC_]]
 
 ## Running test
 
@@ -13,9 +19,9 @@ make test
 ## Outputs
 
 1. Each individual test result:
-    - `OK`: Test passed
-    - `FAIL`: Test failed, but continue
-    - `FATAL`: Test failed and stop
+    - [+ OK +]: Test passed
+    - [- FAIL -]: Test failed, but continue
+    - [- FATAL -]: Test failed and stop
 2. The amount of tests passed from the total amount of tests given
 
 ### Example
