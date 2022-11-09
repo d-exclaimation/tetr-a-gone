@@ -4,9 +4,6 @@
 
 By [Vincent ~ (vno16)](vno16@uclive.ac.nz) and [Natalie Kim (ski102)](ski102@uclive.ac.nz) (ENCE260 2022)
 
-
-[[_TOC_]]
-
 ## Guide
 
 ### Brief
